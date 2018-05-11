@@ -93,8 +93,13 @@ public class MajorScaleTest {
 	public void testIntervalBetweenTwoNotes(){
 		assertEquals(5, Scale.getInterval(0, 5));
 		assertEquals(0, Scale.getInterval(0,  12));
+		// Check for very large intervals above
+		assertEquals(0, Scale.getInterval(0,  (12 + (12 * 400))));
 		assertEquals(4, Scale.getInterval(5,  -1));
 		assertEquals(11, Scale.getInterval(0,  -1));
+		assertEquals(11, Scale.getInterval(0,  -13));
+		// Check for very large intervals below
+		assertEquals(11, Scale.getInterval(0,  (-13 + (12 * 400))));
 	}
 	
 	// Get a scale degree name given an int pitch
@@ -102,6 +107,7 @@ public class MajorScaleTest {
 	public void testGetScaleDegreeNameForIntPitch(){
 		assertEquals("C", cMajorScale.getScaleDegreeName(0));
 		assertEquals("F", cMajorScale.getScaleDegreeName(3));
+		// Given a value that doesn't exist, returns null
 		assertNull(cMajorScale.getScaleDegreeName(13));
 	}
 	
@@ -110,5 +116,18 @@ public class MajorScaleTest {
 	public void testGetScaleDegreeIntGivenName(){
 		assertEquals(0, cMajorScale.getScaleDegreePitch("C"));
 	}
+	
+	// Incomplete test of the mapping of interval names (ie, perfect 4th asc, minor 3rd desc)
+	@Test
+	public void testIntervalNamesMappedToIntervalIntegers(){
+		Map<String, Integer> sampleMapping = new HashMap<>();
+		sampleMapping.put("perfect unison", 0);
+		sampleMapping.put("minor second above",  1);
+		sampleMapping.put("minor 2nd below", -1);
+		sampleMapping.put("major second above",  2);
+		sampleMapping.put("major 2nd below", -2);
+		assertEquals(sampleMapping, Scale.IntervalMapping);
+	}
+	
 
 }

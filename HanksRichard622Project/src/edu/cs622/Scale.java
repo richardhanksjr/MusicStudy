@@ -16,11 +16,14 @@ public abstract class Scale {
  * pitch name. The value is the int value of the position in the scale
  * @param static pitchNameMapping Map<Integer, String> is the mapping of all the the pitch numbers in the chromatic
  * scale to the names of the corresponding pitches
+ * @param availableQualities String is the qualities of the intervals allowed for a given type of scale (ie. Perfect, Major);
  */
 	protected int root;
 	protected Map<Integer, String> pitchesByNumber;
 	protected Map<String, Integer> pitchesByName;
-	public static Map<Integer, String> pitchNameMapping = getPitchNameMapping();
+	public static final Map<Integer, String> pitchNameMapping = getPitchNameMapping();
+	public static final Map<String, Integer> IntervalMapping = getIntervalMapping();
+	protected String[] availableQualities;
 	
 	/**
 	 * Static method returns the pitch, as an int, a given number
@@ -30,10 +33,32 @@ public abstract class Scale {
 	 * @return the int value associated with the upper note in the interval
 	 */
 	public static int getInterval(int fundamental, int halfSteps){
+		// Ensure that going down an interval loops properly
 		if (halfSteps < 0){
-			return ((fundamental + halfSteps) + 12) % 12;
+			int funPlusHalf = fundamental + halfSteps;
+			while(funPlusHalf < -12){
+				funPlusHalf += 12;
+			}
+			return ((funPlusHalf) + 12) % 12;
 		}
 		return (fundamental + halfSteps) % 12;
+	}
+	
+	/**
+	 * Creates the static constant mapping between the names of intervals and their integer values
+	 * @return a Map<String, Integer> where the key is the name of the interval and the value is the Integer
+	 * representation of the interval in half steps (aka semi tones)
+	 * TODO this mapping is incomplete.  Need to finish to be fully functional!
+	 */
+	private static Map<String, Integer> getIntervalMapping() {
+		Map<String, Integer> sampleMapping = new HashMap<>();
+		sampleMapping.put("perfect unison", 0);
+		sampleMapping.put("minor second above",  1);
+		sampleMapping.put("minor 2nd below", -1);
+		sampleMapping.put("major second above",  2);
+		sampleMapping.put("major 2nd below", -2);
+		return sampleMapping;
+
 	}
 	public abstract String getScaleDegreeName(int scaleDegree);
 	public abstract int getScaleDegreePitch(String name);
