@@ -61,7 +61,7 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 	@Override
 	public void generateQuestionAndAnswer() {
 		String key = this.scaleInstance.getPitchesByNumber().get(this.scaleInstance.getRoot());
-		this.generateQuestionAndAnswer("C", "perfect fifth above", "median");
+		this.generateQuestionAndAnswer("C", "perfect fifth above", "mediant");
 	}
 	
 	/**
@@ -75,13 +75,12 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 		this.question = String.format(this.questionTemplate, key, interval, modeDegreeName);
 		// Figure out the answer
 		// Find the modeDegreeName int of the scale
-		int modeDegreeInt = this.scaleInstance.getScaleDegreePitch(modeDegreeName);
-		// Find the interval as the half steps as an in
+		int modeDegreeInt = this.scaleInstance.getPitchByModeDegree(modeDegreeName);
+		// Find the interval as the half steps as an int
 		int intervalHalfSteps = Scale.getIntervalMapping().get(interval);
 		// Find the int that many half steps above the modeDegreeName int
 		int finalNote = Scale.getInterval(modeDegreeInt, intervalHalfSteps);
 		// Convert the int to its String representation
-		System.out.println("finalNote is: " + finalNote);
 		this.answer = Scale.getPitchNameMapping().get(finalNote);
 	}
 

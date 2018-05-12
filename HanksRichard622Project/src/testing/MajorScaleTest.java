@@ -126,6 +126,7 @@ public class MajorScaleTest {
 		sampleMapping.put("minor 2nd below", -1);
 		sampleMapping.put("major second above",  2);
 		sampleMapping.put("major 2nd below", -2);
+		sampleMapping.put("perfect fifth above", 7);
 		assertEquals(sampleMapping, Scale.IntervalMapping);
 	}
 	
@@ -134,13 +135,13 @@ public class MajorScaleTest {
 	@Test
 	public void testModalDegreeNamesMapping(){
 		Map<String, Integer> tempMap = new HashMap<>();
-		tempMap.put("ionian", 0);
-		tempMap.put("dorian", 2);
-		tempMap.put("phrygian", 4);
-		tempMap.put("lydian", 5);
-		tempMap.put("mixolydian", 7);
-		tempMap.put("aeolian", 9);
-		tempMap.put("locrian", 11);
+		tempMap.put("tonic", 0);
+		tempMap.put("supertonic", 2);
+		tempMap.put("mediant", 4);
+		tempMap.put("subdominant", 5);
+		tempMap.put("dominant", 7);
+		tempMap.put("submediant", 9);
+		tempMap.put("leading tone", 11);
 		assertEquals(tempMap, Scale.getModalDegreeNames());
 	}
 	
@@ -148,14 +149,14 @@ public class MajorScaleTest {
 	// instance and get back the int representation of that pitch
 	@Test
 	public void testGetPitchRepresentedByModalNameInAKey(){
-		// In the key of C, the dorian is mapped by the pitch 2
-		int expectedDorian = 2;
-		int actualPitch = cMajorScale.getPitchByModeDegree("dorian");
-		assertEquals(expectedDorian, actualPitch);
-		// locrian should be represented by the pitch 11
-		int expectedLocrian = 11;
-		int actualLocrian = cMajorScale.getPitchByModeDegree("locrian");
-		assertEquals(expectedLocrian, actualLocrian);
+		// In the key of C, the supertonic is mapped by the pitch 2
+		int expectedSupertonic = 2;
+		int actualPitch = cMajorScale.getPitchByModeDegree("supertonic");
+		assertEquals(expectedSupertonic, actualPitch);
+		// leading tone should be represented by the pitch 11
+		int expectedLeadingTone = 11;
+		int actualLeadingTone = cMajorScale.getPitchByModeDegree("leading tone");
+		assertEquals(expectedLeadingTone, actualLeadingTone);
 	}
 
 }

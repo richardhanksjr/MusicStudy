@@ -51,13 +51,13 @@ public abstract class Scale {
 	 */
 	private static Map<String, Integer> setModalDegreeNames() {
 		Map<String, Integer> tempMap = new HashMap<>();
-		tempMap.put("ionian", 0);
-		tempMap.put("dorian", 2);
-		tempMap.put("phrygian", 4);
-		tempMap.put("lydian", 5);
-		tempMap.put("mixolydian", 7);
-		tempMap.put("aeolian", 9);
-		tempMap.put("locrian", 11);
+		tempMap.put("tonic", 0);
+		tempMap.put("supertonic", 2);
+		tempMap.put("mediant", 4);
+		tempMap.put("subdominant", 5);
+		tempMap.put("dominant", 7);
+		tempMap.put("submediant", 9);
+		tempMap.put("leading tone", 11);
 		return tempMap;
 	}
 
@@ -74,6 +74,7 @@ public abstract class Scale {
 		sampleMapping.put("minor 2nd below", -1);
 		sampleMapping.put("major second above",  2);
 		sampleMapping.put("major 2nd below", -2);
+		sampleMapping.put("perfect fifth above", 7);
 		return sampleMapping;
 
 	}

@@ -18,7 +18,7 @@ public class SimpleIntervalUptest {
 	// Test that the question String is properly formatted after being called in the constructor
 	@Test
 	public void testQuestionFormatAfterConstructorSetup(){
-		String expectedOutput = "In the key of C Major, what is the note a perfect fifth above the median?";
+		String expectedOutput = "In the key of C Major, what is the note a perfect fifth above the mediant?";
 		assertEquals(expectedOutput, intUpCMajor.getQuestion());
 
 	}
