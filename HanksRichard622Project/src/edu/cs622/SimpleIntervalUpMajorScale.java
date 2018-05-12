@@ -9,20 +9,16 @@ package edu.cs622;
  *
  */
 
-public class SimpleIntervalUpMajorScale extends AbstractQuestion{
+public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 	
-	private Scale scaleInstance;
-	private String key;
-	private String quality;
-	private String interval;
-	private String modeDegreeName;
+
 
 	// Constructors
 	public SimpleIntervalUpMajorScale(int root){
 		this.scaleInstance = new MajorScale(root);
 		this.questionTemplate = "In the key of %s Major, what is the note a %s the %s?";
 		// The key is represented by the String at the scaleInstance's root int
-		this.key = this.scaleInstance.getScaleDegreeName(root);
+		this.key = Scale.getPitchNameMapping().get(root);
 		this.quality = this.getQuality();
 		this.generateQuestionAndAnswer();
 		
@@ -56,6 +52,7 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 	 * Inherited method from the superclass.  This version of the method takes care of calling the 
 	 * string formatted method with the proper values.  This should be the method to use as the default
 	 * unless the client needs to call with specific values
+	 * TODO this is the place to randomize the specifics of the question.  For now, these are hard coded.
 	 * @return
 	 */
 	@Override
@@ -69,7 +66,7 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 	 * version of the method.
 	 * @param key the Key of the major scale (aka, the root/tonic)
 	 * @param interval the String that represents what to call the interval quality and direction
-	 * @param modeDegreeName the greek scale degree name (ie, dorian, phrygian)
+	 * @param modeDegreeName the greek scale degree name (ie, supertonic, mediant)
 	 */
 	public void generateQuestionAndAnswer(String key, String interval, String modeDegreeName) {
 		this.question = String.format(this.questionTemplate, key, interval, modeDegreeName);
@@ -84,17 +81,7 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 		this.answer = Scale.getPitchNameMapping().get(finalNote);
 	}
 
-	/**
-	 * @Precondition the question has been instantiated
-	 * @return The String representation of the question
-	 */
-	public String getQuestion() {
-		return this.question;
-	}
 
-	public String getAnswer() {
-		return this.answer;
-	}
 
 	@Override
 	public String generateQuestion() {

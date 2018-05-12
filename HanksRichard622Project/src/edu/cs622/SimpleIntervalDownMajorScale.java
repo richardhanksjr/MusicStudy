@@ -1,6 +1,20 @@
 package edu.cs622;
 
-public class SimpleIntervalDownMajorScale extends AbstractQuestion{
+/**
+ * Class for generating a question and answer to test downward intervals in a major scale
+ * @author Richard Hanks
+ *
+ */
+
+public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
+	
+	// Constructors
+	public SimpleIntervalDownMajorScale(int root){
+		this.scaleInstance = new MajorScale(root);
+		this.key = Scale.getPitchNameMapping().get(root);
+		this.questionTemplate = "What is the note a %s the fifth scale degree in %s Major?";
+		this.generateQuestionAndAnswer();
+	}
 
 	@Override
 	public String generateQuestion() {
@@ -22,8 +36,12 @@ public class SimpleIntervalDownMajorScale extends AbstractQuestion{
 
 	@Override
 	public void generateQuestionAndAnswer() {
-		// TODO Auto-generated method stub
+		this.generateQuestionAndAnswer("major 2nd below");
 		
+	}
+	
+	public void generateQuestionAndAnswer(String interval){
+		this.question = String.format(this.questionTemplate, interval, this.key);
 	}
 
 }
