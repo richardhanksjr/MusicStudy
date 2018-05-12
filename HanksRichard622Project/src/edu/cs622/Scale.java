@@ -50,7 +50,7 @@ public abstract class Scale {
 	 * representation of the interval in half steps (aka semi tones)
 	 * TODO this mapping is incomplete.  Need to finish to be fully functional!
 	 */
-	private static Map<String, Integer> getIntervalMapping() {
+	static Map<String, Integer> getIntervalMapping() {
 		Map<String, Integer> sampleMapping = new HashMap<>();
 		sampleMapping.put("perfect unison", 0);
 		sampleMapping.put("minor second above",  1);

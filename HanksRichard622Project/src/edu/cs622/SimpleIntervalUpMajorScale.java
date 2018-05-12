@@ -24,6 +24,7 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 		// The key is represented by the String at the scaleInstance's root int
 		this.key = this.scaleInstance.getScaleDegreeName(root);
 		this.quality = this.getQuality();
+		this.generateQuestionAndAnswer();
 		
 	}
 	
@@ -37,10 +38,6 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 		return null;
 	}
 
-
-	public String generateQuestion(String key, String interval, String modeDegreeName) {
-		return String.format(this.questionTemplate, key, interval, modeDegreeName);
-	}
 
 	@Override
 	public String generateAnswer() {
@@ -62,9 +59,41 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 	 * @return
 	 */
 	@Override
-	public String generateQuestion() {
-		
-		return this.generateQuestion("C", "perfect", "fifth", "median");
+	public void generateQuestionAndAnswer() {
+		String key = this.scaleInstance.getPitchesByNumber().get(this.scaleInstance.getRoot());
+		this.generateQuestionAndAnswer("C", "perfect fifth above", "median");
+	}
+	
+	/**
+	 * This version of the method receives the parameters either directly from the caller or from the no-args
+	 * version of the method.
+	 * @param key the Key of the major scale (aka, the root/tonic)
+	 * @param interval the String that represents what to call the interval quality and direction
+	 * @param modeDegreeName the greek scale degree name (ie, dorian, phrygian)
+	 */
+	public void generateQuestionAndAnswer(String key, String interval, String modeDegreeName) {
+		this.question = String.format(this.questionTemplate, key, interval, modeDegreeName);
+		// Figure out the answer
+		// Find the modeDegreeName int of the scale
+		int modeDegreeInt = this.scaleInstance.getScaleDegreePitch(modeDegreeName);
+		// Find the interval as the half steps as an in
+		int intervalHalfSteps = Scale.getIntervalMapping().get(interval);
+		// Find the int that many half steps above the modeDegreeName int
+		int finalNote = Scale.getInterval(modeDegreeInt, intervalHalfSteps);
+		// Convert the int to its String representation
+		this.answer = Scale.getPitchNameMapping().get(finalNote);
+	}
+
+	/**
+	 * @Precondition the question has been instantiated
+	 * @return The String representation of the question
+	 */
+	public String getQuestion() {
+		return this.question;
+	}
+
+	public String getAnswer() {
+		return this.answer;
 	}
 
 }

@@ -8,5 +8,6 @@ package edu.cs622;
  */
 public abstract class AbstractQuestion implements Question {
 	protected String questionTemplate;
+	protected String question;
 	protected String answer;
 }

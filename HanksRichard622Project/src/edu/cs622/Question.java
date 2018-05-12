@@ -9,4 +9,5 @@ public interface Question {
 	public abstract String generateQuestion();
 	public abstract String generateAnswer();
 	public abstract Boolean checkAnswer();
+	void generateQuestionAndAnswer();
 }
