@@ -81,6 +81,7 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 		// Find the int that many half steps above the modeDegreeName int
 		int finalNote = Scale.getInterval(modeDegreeInt, intervalHalfSteps);
 		// Convert the int to its String representation
+		System.out.println("finalNote is: " + finalNote);
 		this.answer = Scale.getPitchNameMapping().get(finalNote);
 	}
 
@@ -94,6 +95,12 @@ public class SimpleIntervalUpMajorScale extends AbstractQuestion{
 
 	public String getAnswer() {
 		return this.answer;
+	}
+
+	@Override
+	public String generateQuestion() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -84,4 +84,17 @@ public class MajorScale extends Scale{
 		return this.pitchesByName.get(nameFormatted);
 	}
 
+
+	/**
+	 * Gets the pitch represented by the given mode name for the current key of the object
+	 */
+	@Override
+	public int getPitchByModeDegree(String modeDegreeName) {
+		// Get the int value of the number of halfsteps above the root for the given degree name
+		int numHalfSteps = Scale.getModalDegreeNames().get(modeDegreeName);
+		// calculate the pitch located the number of half steps above the root
+		return Scale.getInterval(this.root, numHalfSteps);
+
+	}
+
 }

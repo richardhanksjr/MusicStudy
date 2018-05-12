@@ -129,5 +129,33 @@ public class MajorScaleTest {
 		assertEquals(sampleMapping, Scale.IntervalMapping);
 	}
 	
+	// Test the mapping between modal degree names and the number of half steps
+	// above the tonic
+	@Test
+	public void testModalDegreeNamesMapping(){
+		Map<String, Integer> tempMap = new HashMap<>();
+		tempMap.put("ionian", 0);
+		tempMap.put("dorian", 2);
+		tempMap.put("phrygian", 4);
+		tempMap.put("lydian", 5);
+		tempMap.put("mixolydian", 7);
+		tempMap.put("aeolian", 9);
+		tempMap.put("locrian", 11);
+		assertEquals(tempMap, Scale.getModalDegreeNames());
+	}
+	
+	// Test the ability to pass the modal scale degree name to a Scale
+	// instance and get back the int representation of that pitch
+	@Test
+	public void testGetPitchRepresentedByModalNameInAKey(){
+		// In the key of C, the dorian is mapped by the pitch 2
+		int expectedDorian = 2;
+		int actualPitch = cMajorScale.getPitchByModeDegree("dorian");
+		assertEquals(expectedDorian, actualPitch);
+		// locrian should be represented by the pitch 11
+		int expectedLocrian = 11;
+		int actualLocrian = cMajorScale.getPitchByModeDegree("locrian");
+		assertEquals(expectedLocrian, actualLocrian);
+	}
 
 }

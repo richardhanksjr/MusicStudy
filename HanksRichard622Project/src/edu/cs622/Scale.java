@@ -24,6 +24,7 @@ public abstract class Scale {
 	public static final Map<Integer, String> pitchNameMapping = getPitchNameMapping();
 	public static final Map<String, Integer> IntervalMapping = getIntervalMapping();
 	protected String[] availableQualities;
+	public static final Map<String, Integer> modalDegreeNames = setModalDegreeNames();
 	
 	/**
 	 * Static method returns the pitch, as an int, a given number
@@ -44,6 +45,22 @@ public abstract class Scale {
 		return (fundamental + halfSteps) % 12;
 	}
 	
+	/**
+	 * Sets the mapping between modal degree names and the number of half steps to that pitch from the fundamental
+	 * @return the correct mapping between degree names and halfsteps above fundamental
+	 */
+	private static Map<String, Integer> setModalDegreeNames() {
+		Map<String, Integer> tempMap = new HashMap<>();
+		tempMap.put("ionian", 0);
+		tempMap.put("dorian", 2);
+		tempMap.put("phrygian", 4);
+		tempMap.put("lydian", 5);
+		tempMap.put("mixolydian", 7);
+		tempMap.put("aeolian", 9);
+		tempMap.put("locrian", 11);
+		return tempMap;
+	}
+
 	/**
 	 * Creates the static constant mapping between the names of intervals and their integer values
 	 * @return a Map<String, Integer> where the key is the name of the interval and the value is the Integer
@@ -90,4 +107,18 @@ public abstract class Scale {
 	
 	public abstract Map<Integer, String> getPitchesByNumber();
 	public abstract Map<String, Integer> getPitchesByName();
+
+	public static Map<String, Integer> getModalDegreeNames() {
+		return modalDegreeNames;
+	}
+
+	/**
+	 * Given a modal degree name, returns the int of the pitch at that position
+	 * @param modeDegreeName the modal name of the pitch to find
+	 * @return the int value of the pitch at that position in the key
+	 * @precondition modeDegreeName is a proper name, spelled correctly
+	 */
+	public abstract int getPitchByModeDegree(String modeDegreeName);
+	
+	
 }
