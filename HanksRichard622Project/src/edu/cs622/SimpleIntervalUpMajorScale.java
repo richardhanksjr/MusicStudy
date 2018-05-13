@@ -35,8 +35,8 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 	 */
 	@Override
 	public void generateQuestionAndAnswer() {
-		String key = this.scaleInstance.getPitchesByNumber().get(this.scaleInstance.getRoot());
-		this.generateQuestionAndAnswer("C", "perfect fifth above", "mediant");
+		//String key = this.scaleInstance.getPitchesByNumber().get(this.scaleInstance.getRoot());
+		this.generateQuestionAndAnswer(this.key, "perfect fifth above", "mediant");
 	}
 	
 	/**
