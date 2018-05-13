@@ -19,30 +19,14 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 		this.questionTemplate = "In the key of %s Major, what is the note a %s the %s?";
 		// The key is represented by the String at the scaleInstance's root int
 		this.key = Scale.getPitchNameMapping().get(root);
-		this.quality = this.getQuality();
 		this.generateQuestionAndAnswer();
 		
 	}
 	
-	/**
-	 * Selects randomly from among the available diatonic scale qualities.  Used by the constructor to 
-	 * set the quality instance variable.
-	 * @return
-	 */
-	private String getQuality() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	@Override
-	public String generateAnswer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean checkAnswer() {
+	public Boolean checkAnswer(String givenAnswer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -82,11 +66,5 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 	}
 
 
-
-	@Override
-	public String generateQuestion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

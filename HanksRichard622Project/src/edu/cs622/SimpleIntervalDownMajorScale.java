@@ -16,20 +16,9 @@ public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 		this.generateQuestionAndAnswer();
 	}
 
-	@Override
-	public String generateQuestion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public String generateAnswer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean checkAnswer() {
+	public Boolean checkAnswer(String givenAnswer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

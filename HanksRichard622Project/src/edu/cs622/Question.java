@@ -6,8 +6,7 @@ package edu.cs622;
  *
  */
 public interface Question {
-	public abstract String generateQuestion();
-	public abstract String generateAnswer();
-	public abstract Boolean checkAnswer();
+
+	public abstract Boolean checkAnswer(String givenAnswer);
 	void generateQuestionAndAnswer();
 }
