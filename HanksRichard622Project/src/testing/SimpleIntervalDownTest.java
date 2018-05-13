@@ -21,5 +21,13 @@ public class SimpleIntervalDownTest {
 		assertEquals(expectedQuestion, intDown.getQuestion());
 
 	}
+	
+	// Test that the answer is correct
+	@Test
+	public void testForCorrectAnswer(){
+		String expectedAnswer = "C";
+		assertEquals(expectedAnswer, intDown.getAnswer());
+
+	}
 
 }

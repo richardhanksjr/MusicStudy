@@ -42,6 +42,15 @@ public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 	
 	public void generateQuestionAndAnswer(String interval){
 		this.question = String.format(this.questionTemplate, interval, this.key);
+		// Generate answer
+		// Get the fifth scale degree of the key
+		int fifth = Scale.getInterval(this.scaleInstance.getRoot(), 7);
+		// Convert the interval to a number of halfsteps
+		int halfStepsInInterval = Scale.getIntervalMapping().get(interval);
+		// Get the given interval below the fifth
+		int answerInt = Scale.getInterval(fifth, halfStepsInInterval);
+		// set the answer as the string
+		this.answer = Scale.getPitchNameMapping().get(answerInt);
 	}
 
 }
