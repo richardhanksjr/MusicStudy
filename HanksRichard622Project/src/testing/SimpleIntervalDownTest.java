@@ -29,5 +29,19 @@ public class SimpleIntervalDownTest {
 		assertEquals(expectedAnswer, intDown.getAnswer());
 
 	}
+	
+	// Test that the answer check works
+	@Test
+	public void testCheckForCorrectAnswer(){
+		String correctAnswer = "C";
+		assertEquals(true, intDown.checkAnswer(correctAnswer));
+	}
+	
+	// Test that the answer check returns false when the answer isn't correct
+	@Test
+	public void testCheckForIncorrectAnsewr(){
+		String incorrectAnswer = "C#";
+		assertEquals(false, intDown.checkAnswer(incorrectAnswer));
+	}
 
 }

@@ -29,6 +29,20 @@ public class SimpleIntervalUptest {
 		String expectedAnswer = "B";
 		assertEquals(expectedAnswer, intUpCMajor.getAnswer());
 	}
+	
+	// Test that the answer check works
+	@Test
+	public void testCheckForCorrectAnswer(){
+		String correctAnswer = "B";
+		assertEquals(true, intUpCMajor.checkAnswer(correctAnswer));
+	}
+	
+	// Test that the answer check works when the answer is false
+	@Test
+	public void testCheckForIncorrectAnswer(){
+		String incorrectAnswer = "Bb";
+		assertEquals(false, intUpCMajor.checkAnswer(incorrectAnswer));
+	}
 
 
 

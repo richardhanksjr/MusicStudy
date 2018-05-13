@@ -17,11 +17,8 @@ public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 	}
 
 
-	@Override
-	public Boolean checkAnswer(String givenAnswer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+
 
 	@Override
 	public void generateQuestionAndAnswer() {

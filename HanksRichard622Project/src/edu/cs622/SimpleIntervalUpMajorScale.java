@@ -25,12 +25,6 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 	
 
 
-	@Override
-	public Boolean checkAnswer(String givenAnswer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	/**
 	 * Inherited method from the superclass.  This version of the method takes care of calling the 

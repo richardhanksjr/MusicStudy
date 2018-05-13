@@ -10,4 +10,7 @@ public abstract class AbstractQuestion implements Question {
 	protected String questionTemplate;
 	protected String question;
 	protected String answer;
+	public Boolean checkAnswer(String givenAnswer) {
+		return (givenAnswer == this.answer);
+	}
 }
