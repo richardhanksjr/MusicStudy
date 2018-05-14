@@ -1,82 +1,119 @@
 package edu.cs622;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
+
+import testing.SimpleIntervalUptest;
 
 public class Quiz {
-	private static List<AbstractQuestion> questions = questionGenerator();
+	// A mapping to keep track of the total questions correct for each type of question
+	private static Map<String, Integer> scoring = new HashMap<String, Integer>();
+	private static List<Question> questions = questionGenerator();
 	private static Random random = new Random();
 
-	public static void main(String[] args) {
 
+	public static void main(String[] args) {
+		Scanner reader = new Scanner(System.in);
 		// Create instances of Question subclasses to "ask"
 		//while the user hasn't exited the program
-		boolean askQuestions = true;
-		AbstractQuestion question;
+		Boolean askQuestions = true;
+		Question question;
 		while(askQuestions){
 			//Get random question
-			question = getQuestion();
+			question = (AbstractQuestion) getQuestion();
 			// Ask question
-			System.out.println(question.question);
-			askQuestions = false;
+			System.out.println(((AbstractQuestion)question).question);
+			System.out.println("Enter answer or type \"Q\" to exit");
+			// get user answer
+			String answer = reader.next();
+			if(answer.toUpperCase().equals("Q")){
+				askQuestions = false;
+				System.out.println("\nGoodbye!");
+				break;
+			}
+			// check answer against and return if the answer was correct
+			boolean correctAnswer = question.checkAnswer(answer.toUpperCase());
+			// provide the correct answer
+			if(correctAnswer){
+				System.out.println("Correct!");
+				// Keep track of correct answers for each type of question
+				if(question.getClass() == SimpleIntervalUpMajorScale.class){
+					String key = "Simple Interval Up Major Scale";
+					String updatedScore = updateScore(key);
+					System.out.println(updatedScore);
 
+				}else if(question.getClass() == SimpleIntervalDownMajorScale.class){
+					String key = "Simple Interval Down Major Scale";
+					String updatedScore = updateScore(key);
+					System.out.println(updatedScore);
+				}
+			}else{
+				System.out.println("Sorry, that was not correct.  Correct answer was: " + ((AbstractQuestion)question).answer);
+			}
+			// For readability
+			System.out.println("\n ------------------------------------------\n");
 		}
 
-
-		// get user answer
-		// check answer against and return if the answer was correct
-		// provide the correct answer
-		// prompt for another question or to exit
-
+		reader.close();
+		System.out.println("\n ------------------------------\n");
+		// Print the final score
+		printFinalScore();
+		
 	}
 	
-	private static AbstractQuestion getQuestion() {
+	private static String updateScore(String key) {
+		int currentScore = scoring.containsKey(key) ? scoring.get(key): 0;
+		scoring.put(key, currentScore + 1);
+		return "Score for " + key + ": " + scoring.get(key);
+	}
+
+	private static void printFinalScore() {
+		System.out.println("Your scores from this session were:");
+		for(String key: scoring.keySet()){
+			System.out.println(key + ": " + scoring.get(key));
+		}
+		
+	}
+
+	private static Question getQuestion() {
 		int index = random.nextInt(questions.size());
 		return questions.get(index);
 	}
 
-	private static List<AbstractQuestion> questionGenerator(){
+	private static List<Question> questionGenerator(){
 		// A List of the Question subclasses to choose from
 		List<Class <?>> questionClasses = new ArrayList<Class <?>>();
+		// Add questions to a List to randomly select from
+		List<Question> questions = new ArrayList<>();
 		questionClasses.add(SimpleIntervalUpMajorScale.class);
+		// Set the initial scoring
+		scoring.put("Simple Interval Up Major Scale", 0);
 		questionClasses.add(SimpleIntervalDownMajorScale.class);
-//		Constructor<?> testQuestion = (Constructor<?>) questions.get(0).getConstructors()[0].newInstance(0);
-		AbstractQuestion testy = null;
-		try {
-			testy = (AbstractQuestion)questionClasses.get(1).getConstructors()[0].newInstance(new Object[]{new Integer(6)});
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("test question is: " + testy.question);
-//		List<Class<? extends AbstractQuestion>> classes = new ArrayList<Class<? extends AbstractQuestion>>();
-//		classes.add(SimpleIntervalUpMajorScale.class);
-//		classes.add(SimpleIntervalDownMajorScale.class);
-//		AbstractQuestion testy = classes.get(0).newInstance();
-//		System.out.println(testy.question);
-
-		int randomInt = 0 + (int)(Math.random() * ((11 - 0)));
+		// Set the initial scoring
+		Quiz.scoring.put("Simple Interval Down Major Scale", 0);
 		// The number of questions to instantiate
+		AbstractQuestion ques = null;
 		int numQuestions = 20;
 		for(int i = 0; i<numQuestions; i++){
-			
+			// To get a random sampling of the questions in the questionClasses List
+			int questionTemplateIndex = i % questionClasses.size();
+			// Get a random int to be used as the "key" for each question
+			int randomInt = 0 + (int)(Math.random() * ((11 - 0)));
+			try {
+				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new Integer(randomInt)});
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+					| SecurityException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			questions.add(ques);		
 		}
-		// 2 versions of interval up
-		AbstractQuestion intUp1 = new SimpleIntervalUpMajorScale(7);
-		AbstractQuestion intUp2 = new SimpleIntervalUpMajorScale(5);
-		// 2 versions of interval down
-		AbstractQuestion intDown1 = new SimpleIntervalDownMajorScale(3);
-		AbstractQuestion intDown2 = new SimpleIntervalDownMajorScale(7);
-		// Add questions to a List to randomly select from
-		List<AbstractQuestion> questions = new ArrayList<>();
-		questions.add(intUp1);
-		questions.add(intUp2);
-		questions.add(intDown1);
-		questions.add(intDown2);
+
 		return questions;
 	}
 

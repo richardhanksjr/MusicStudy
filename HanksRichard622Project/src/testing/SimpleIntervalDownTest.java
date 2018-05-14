@@ -36,6 +36,7 @@ public class SimpleIntervalDownTest {
 		String correctAnswer = "C";
 		assertEquals(true, intDown.checkAnswer(correctAnswer));
 	}
+
 	
 	// Test that the answer check returns false when the answer isn't correct
 	@Test

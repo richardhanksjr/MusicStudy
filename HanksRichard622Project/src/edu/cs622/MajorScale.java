@@ -16,8 +16,26 @@ public class MajorScale extends Scale{
 
 		// Set pitchesByNumber
 		this.setPitchesToNameMappings();
+		// Set modal degree names
+		modalDegreeNames = MajorScale.setModalDegreeNames();
 
 
+	}
+	
+	/**
+	 * Sets the mapping between modal degree names and the number of half steps to that pitch from the fundamental
+	 * @return the correct mapping between degree names and halfsteps above fundamental
+	 */
+	private static Map<String, Integer> setModalDegreeNames() {
+		Map<String, Integer> tempMap = new HashMap<>();
+		tempMap.put("tonic", 0);
+		tempMap.put("supertonic", 2);
+		tempMap.put("mediant", 4);
+		tempMap.put("subdominant", 5);
+		tempMap.put("dominant", 7);
+		tempMap.put("submediant", 9);
+		tempMap.put("leading tone", 11);
+		return tempMap;
 	}
 
 	
@@ -91,10 +109,9 @@ public class MajorScale extends Scale{
 	@Override
 	public int getPitchByModeDegree(String modeDegreeName) {
 		// Get the int value of the number of halfsteps above the root for the given degree name
-		int numHalfSteps = Scale.getModalDegreeNames().get(modeDegreeName);
+		int numHalfSteps = MajorScale.getModalDegreeNames().get(modeDegreeName);
 		// calculate the pitch located the number of half steps above the root
 		return Scale.getInterval(this.root, numHalfSteps);
 
 	}
-
 }

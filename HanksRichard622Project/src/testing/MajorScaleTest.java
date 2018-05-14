@@ -57,6 +57,7 @@ public class MajorScaleTest {
 		
 	}
 	
+
 	// Test that the pitches by number are correct for the given root
 	@Test
 	public void testCorrectMappingBetweenPitchesAndNamesInMajorScale(){

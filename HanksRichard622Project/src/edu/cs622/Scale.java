@@ -24,7 +24,7 @@ public abstract class Scale {
 	public static final Map<Integer, String> pitchNameMapping = getPitchNameMapping();
 	public static final Map<String, Integer> IntervalMapping = getIntervalMapping();
 	protected String[] availableQualities;
-	public static final Map<String, Integer> modalDegreeNames = setModalDegreeNames();
+	public static Map<String, Integer> modalDegreeNames = setModalDegreeNames();
 	
 	/**
 	 * Static method returns the pitch, as an int, a given number
@@ -45,21 +45,7 @@ public abstract class Scale {
 		return (fundamental + halfSteps) % 12;
 	}
 	
-	/**
-	 * Sets the mapping between modal degree names and the number of half steps to that pitch from the fundamental
-	 * @return the correct mapping between degree names and halfsteps above fundamental
-	 */
-	private static Map<String, Integer> setModalDegreeNames() {
-		Map<String, Integer> tempMap = new HashMap<>();
-		tempMap.put("tonic", 0);
-		tempMap.put("supertonic", 2);
-		tempMap.put("mediant", 4);
-		tempMap.put("subdominant", 5);
-		tempMap.put("dominant", 7);
-		tempMap.put("submediant", 9);
-		tempMap.put("leading tone", 11);
-		return tempMap;
-	}
+
 
 	/**
 	 * Creates the static constant mapping between the names of intervals and their integer values
@@ -105,7 +91,16 @@ public abstract class Scale {
 		return placeHolderMapping;
 	}
 	
-	
+	/**
+	 * Sets the mapping between modal degree names and the number of half steps to that pitch from the fundamental
+	 * @return the correct mapping between degree names and halfsteps above fundamental.  Since the details of this 
+	 * mapping will vary based on scale quality, we only define the tonic here, since this is common to all scale qualities.
+	 */
+	private static Map<String, Integer> setModalDegreeNames() {
+		Map<String, Integer> tempMap = new HashMap<>();
+		tempMap.put("tonic", 0);
+		return tempMap;
+	}
 	public abstract Map<Integer, String> getPitchesByNumber();
 	public abstract Map<String, Integer> getPitchesByName();
 

@@ -11,6 +11,7 @@ public abstract class AbstractQuestion implements Question {
 	protected String question;
 	protected String answer;
 	public Boolean checkAnswer(String givenAnswer) {
-		return (givenAnswer == this.answer);
+		String formattedAnswer = givenAnswer.substring(0, 1).toUpperCase() + givenAnswer.substring(1).toLowerCase();
+		return (formattedAnswer.equals(this.answer));
 	}
 }

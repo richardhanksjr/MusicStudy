@@ -11,12 +11,10 @@ public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 	// Constructors
 	public SimpleIntervalDownMajorScale(int root){
 		this.scaleInstance = new MajorScale(root);
-		this.key = Scale.getPitchNameMapping().get(root);
+		this.key = MajorScale.getPitchNameMapping().get(root);
 		this.questionTemplate = "What is the note a %s the fifth scale degree in %s Major?";
 		this.generateQuestionAndAnswer();
 	}
-
-
 
 
 
