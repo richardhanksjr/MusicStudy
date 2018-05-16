@@ -1,10 +1,1 @@
-{
-	"categoryNames": ["SimpleIntervalUpMajorScale", "SimpleIntervalDownMajorScale"],
-	"testUser":
-	{	
-		"SimpleIntervalUpMajorScale":0,
-		"SimpleIntervalDownMajorScale": 0
-	
-	}
-
-}
+{"categoryNames":["SimpleIntervalUpMajorScale","SimpleIntervalDownMajorScale"],"testUser":{"SimpleIntervalDownMajorScale":0,"SimpleIntervalUpMajorScale":1}}

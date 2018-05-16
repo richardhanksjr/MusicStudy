@@ -28,5 +28,14 @@ public class UserTest {
 		assertEquals(expectedScores, actualScores);
 		
 	}
+	
+	// Test that we can increment values to the json file and the resulting file has the new values
+	@Test
+	public void testAddScoreToJsonFile(){
+		Integer expectedScoreAfterIncrement = this.testUser.getScores().get("SimpleIntervalUpMajorScale") + 1;
+		this.testUser.incrementScore("SimpleIntervalUpMajorScale");
+		Integer actualScoreAfterIncrement = this.testUser.getScores().get("SimpleIntervalUpMajorScale");
+		assertEquals(expectedScoreAfterIncrement, actualScoreAfterIncrement);
+	}
 
 }
