@@ -25,7 +25,8 @@ public class Quiz {
 		String userName = reader.next();
 		user = new User(userName);
 		System.out.println("Hello, " + userName + ".  Your current scores are:");
-		System.out.println(user.getScores()+"\n\n_____________________________________________________");
+		printScores();
+		System.out.println("\n\n_____________________________________________________");
 		// Create instances of Question subclasses to "ask"
 		//while the user hasn't exited the program
 		Boolean askQuestions = true;
@@ -74,8 +75,9 @@ public class Quiz {
 
 		reader.close();
 		System.out.println("\n ------------------------------\n");
+		System.out.println("Your scores from this session were:");
 		// Print the final score
-		printFinalScore();
+		printScores();
 		
 	}
 	
@@ -85,8 +87,7 @@ public class Quiz {
 		return "Score for " + key + ": " + scoring.get(key);
 	}
 
-	private static void printFinalScore() {
-		System.out.println("Your scores from this session were:");
+	private static void printScores() {
 		for(String key: user.getScores().keySet()){
 			System.out.println(key + ": " + user.getScores().get(key));
 		}
