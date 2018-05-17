@@ -39,5 +39,17 @@ public class UserTest {
 		Integer actualScoreAfterIncrement = this.testUser.getScores().get("SimpleIntervalUpMajorScale");
 		assertEquals(expectedScoreAfterIncrement, actualScoreAfterIncrement);
 	}
+	
+	// Test that we can get back a mapping of a given question type and the current score
+	// for that user based on the given question type as the parameter
+	@Test
+	public void testGetSpecificScoreByType(){
+		Map<String, Integer> expectedScores = new HashMap<>();
+		expectedScores.put("SimpleIntervalUpMajorScale", 0);
+		Map<String, Integer> actualScores = this.testUser.getSpecificScore("SimpleIntervalUpMajorScale");
+		assertEquals(expectedScores, actualScores);
+		
+		
+	}
 
 }

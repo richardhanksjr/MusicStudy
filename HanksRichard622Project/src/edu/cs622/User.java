@@ -59,12 +59,13 @@ public class User implements Scorable{
 			}else{
 				score = (Integer) userScores.get(key);
 			}
-			System.out.println("class is: " + userScores.get(key).getClass());
 			scores.put(key,  score);
 		}
 
 		return scores;
 	}
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -75,10 +76,8 @@ public class User implements Scorable{
 		JSONObject userScores = this.getScoresJsonObject(jsonObject);
 		//update the score
 		userScores.put(questionType, ++currentScore);
-		System.out.println(jsonObject);
 		this.writeJSONtoFile(jsonObject);
 		// return the updated scores for the user
-		System.out.println(this.getScores());
 		return this.getScores();
 	}
 	
@@ -139,6 +138,26 @@ public class User implements Scorable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Method for returning the current user's score as a mapping where the key is the
+	 * name of the question type and the value is the current score for that question type
+	 * @param questionType The string of the key that maps to key of the question
+	 * @return a mapping where the key is the String representation of the type of question and the value
+	 * is the current score for the type of question for this user
+	 */
+	@Override
+	public Map<String, Integer> getSpecificScore(String questionType) {
+		Map<String, Integer> scoreMapping = new HashMap<>();
+		// Get the current scores for this user
+		Map<String, Integer> currentScores = this.getScores();
+		// Pull out the current score for the key at questionType
+		int scoreForQuestionType = currentScores.get(questionType);
+		// return a mapping using questionType as the key and the current score as the value
+		scoreMapping.put(questionType, scoreForQuestionType);
+		return scoreMapping;
+		
 	}
 
 }

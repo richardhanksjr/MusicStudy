@@ -15,10 +15,17 @@ public class Quiz {
 	private static Map<String, Integer> scoring = new HashMap<String, Integer>();
 	private static List<Question> questions = questionGenerator();
 	private static Random random = new Random();
+	private static User user = null;
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		Scanner reader = new Scanner(System.in);
+		// Beginning of program, prompt user for user name and display their scores
+		System.out.println("Hello!  Please enter your username to begin:");
+		String userName = reader.next();
+		user = new User(userName);
+		System.out.println("Hello, " + userName + ".  Your current scores are:");
+		System.out.println(user.getScores()+"\n\n_____________________________________________________");
 		// Create instances of Question subclasses to "ask"
 		//while the user hasn't exited the program
 		Boolean askQuestions = true;
@@ -42,16 +49,22 @@ public class Quiz {
 			if(correctAnswer){
 				System.out.println("Correct!");
 				// Keep track of correct answers for each type of question
+				String key = null;
 				if(question.getClass() == SimpleIntervalUpMajorScale.class){
-					String key = "Simple Interval Up Major Scale";
-					String updatedScore = updateScore(key);
-					System.out.println(updatedScore);
+//					String key = "Simple Interval Up Major Scale";
+//					String updatedScore = updateScore(key);
+//					System.out.println(updatedScore);
+					key = "SimpleIntervalUpMajorScale";
+					
 
 				}else if(question.getClass() == SimpleIntervalDownMajorScale.class){
-					String key = "Simple Interval Down Major Scale";
-					String updatedScore = updateScore(key);
-					System.out.println(updatedScore);
+//					String key = "Simple Interval Down Major Scale";
+//					String updatedScore = updateScore(key);
+//					System.out.println(updatedScore);
+					key = "SimpleIntervalDownMajorScale";
 				}
+				user.incrementScore(key);
+				System.out.println("Your new score for " + key + " is " + (user.getSpecificScore(key)));
 			}else{
 				System.out.println("Sorry, that was not correct.  Correct answer was: " + ((AbstractQuestion)question).answer);
 			}
@@ -74,8 +87,8 @@ public class Quiz {
 
 	private static void printFinalScore() {
 		System.out.println("Your scores from this session were:");
-		for(String key: scoring.keySet()){
-			System.out.println(key + ": " + scoring.get(key));
+		for(String key: user.getScores().keySet()){
+			System.out.println(key + ": " + user.getScores().get(key));
 		}
 		
 	}

@@ -12,5 +12,6 @@ public interface Scorable {
 	
 	public abstract Map<String, Integer> getScores();
 	public abstract Map<String, Integer> incrementScore(String questionType);
+	public abstract Map<String, Integer> getSpecificScore(String questionType);
 
 }
