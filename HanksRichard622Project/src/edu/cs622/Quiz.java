@@ -75,7 +75,7 @@ public class Quiz {
 
 		reader.close();
 		System.out.println("\n ------------------------------\n");
-		System.out.println("Your scores from this session were:");
+		System.out.println("Your scores after this session were:");
 		// Print the final score
 		printScores();
 		

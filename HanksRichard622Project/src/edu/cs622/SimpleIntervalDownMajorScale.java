@@ -8,6 +8,9 @@ package edu.cs622;
 
 public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 	
+	private String answerExplanation;
+
+
 	// Constructors
 	public SimpleIntervalDownMajorScale(int root){
 		this.scaleInstance = new MajorScale(root);
@@ -35,6 +38,19 @@ public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 		int answerInt = Scale.getInterval(fifth, halfStepsInInterval);
 		// set the answer as the string
 		this.answer = Scale.getPitchNameMapping().get(answerInt);
+		String fifthString = Scale.getPitchNameMapping().get(fifth);
+		this.answerExplanation = String.format("The fifth scale degree of %s Major is %s.  A %s %s is %s. %s is the correct answer.",
+							this.key, fifthString, interval, fifthString, this.answer, this.answer);
+	}
+
+
+	/** 
+	 * Provides the explanation to the user about how the correct answer is derived
+	 * @return the explanation
+	 */
+	@Override
+	public String getExplanation() {
+		return this.answerExplanation;
 	}
 
 }

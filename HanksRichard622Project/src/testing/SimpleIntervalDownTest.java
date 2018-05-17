@@ -44,5 +44,15 @@ public class SimpleIntervalDownTest {
 		String incorrectAnswer = "C#";
 		assertEquals(false, intDown.checkAnswer(incorrectAnswer));
 	}
+	
+	// Test that the feedback explanation to the user on the question is correct
+	@Test
+	public void testCorrectUserAnswerExplanation(){
+		String expectedExplanation = "The fifth scale degree of G Major is D.  A major 2nd below D is C. C is the correct answer.";
+		String actualExplanation = intDown.getExplanation();
+		System.out.println(expectedExplanation);
+		System.out.println(actualExplanation);
+		assertEquals(expectedExplanation, actualExplanation);
+	}
 
 }
