@@ -15,7 +15,7 @@ public class UserTest {
 	@Before
 	public void setUp() throws Exception {
 		// Instantiate the User object for testing
-		this.testUser = new User("testUser");
+		this.testUser = new User("testUser1");
 	}
 
 	// Test that we can get scores from the JSON storage file

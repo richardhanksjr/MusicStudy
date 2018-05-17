@@ -22,8 +22,9 @@ public class User implements Scorable{
 	private String userName;
 	private Map<String, Integer> scores;
 	private JSONParser parser = new JSONParser();
+	private String fileName = "scores.json";
 	
-	public User(String username){
+	public User(String userName){
 		this.userName = userName;
 	}
 	public String getUserName() {
@@ -69,7 +70,7 @@ public class User implements Scorable{
 		System.out.println(jsonObject);
 		try {
 			@SuppressWarnings("resource")
-			FileWriter file = new FileWriter("scores.json");
+			FileWriter file = new FileWriter(this.fileName);
 			file.write(jsonObject.toJSONString());
 			file.flush();
 		} catch (IOException e) {
@@ -82,13 +83,42 @@ public class User implements Scorable{
 	}
 	
 	private JSONObject getScoresJsonObject(JSONObject jsonObject){
-		return (JSONObject) jsonObject.get("testUser");
+		if(!jsonObject.containsKey(this.userName)){
+			this.addUserToFile(jsonObject);
+		}
+		return (JSONObject) jsonObject.get(this.userName);
 	}
 	
+	/**
+	 * Adds the current user to the storage file if the current user isn't already in the file
+	 */
+	private void addUserToFile(JSONObject jsonObject) {
+		if(jsonObject.containsKey(this.userName)){
+			return;
+		}
+		// Create innermost JSON object that maps question types to the default starting value, 0
+		JSONObject innermost = new JSONObject();
+		// For each category name in categoryNames
+		JSONArray categoryNames = (JSONArray) jsonObject.get("categoryNames");
+		// add to the innermost JSON object with the category name as key and 0 as the value
+		for(int i = 0; i < categoryNames.size(); i++){
+			innermost.put(categoryNames.get(i), 0);
+		}
+		// Create a JSON object for the username
+//		JSONObject newUser = new JSONObject();
+//		// add the innermost json object to the usename object
+//		newUser.put(this.userName, innermost);
+//		System.out.println(newUser);
+		// add the user json object to the given jsonObject
+		jsonObject.put(this.userName, innermost);
+		// write to the file
+		System.out.println("jsonObject is: " + jsonObject);
+		
+	}
 	private JSONObject getJsonObjectFromFile(){
 		Object obj = null;
 		try {
-			obj = parser.parse(new FileReader("scores.json"));
+			obj = parser.parse(new FileReader(this.fileName));
 		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
