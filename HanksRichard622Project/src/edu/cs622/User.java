@@ -51,7 +51,15 @@ public class User implements Scorable{
 		for(int i = 0; i < categoryNames.size(); i++ ){
 			String key = (String) categoryNames.get(i);
 			// A little funky here, but this is a way to pull out an int from the JSON file
-			Integer score = toIntExact((Long)userScores.get(key));
+			// Reading of the values from the file seems to altenate between Long and Integer values. What we want is an Integer, so I am checking what type the value
+			// is at the key reference and casting appropriately.
+			Integer score = null;
+			if(userScores.get(key).getClass() == java.lang.Long.class){
+				score = ((Long)userScores.get(key)).intValue();
+			}else{
+				score = (Integer) userScores.get(key);
+			}
+			System.out.println("class is: " + userScores.get(key).getClass());
 			scores.put(key,  score);
 		}
 
@@ -68,20 +76,18 @@ public class User implements Scorable{
 		//update the score
 		userScores.put(questionType, ++currentScore);
 		System.out.println(jsonObject);
-		try {
-			@SuppressWarnings("resource")
-			FileWriter file = new FileWriter(this.fileName);
-			file.write(jsonObject.toJSONString());
-			file.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.writeJSONtoFile(jsonObject);
 		// return the updated scores for the user
 		System.out.println(this.getScores());
 		return this.getScores();
 	}
 	
+	/**
+	 * This is where we read the scores related to the user.  
+	 * THIS IS WHERE A THE METHOD IS CALLED TO ADD A NEW USER TO THE FILE, IF NEEDED!!
+	 * @param jsonObject
+	 * @return
+	 */
 	private JSONObject getScoresJsonObject(JSONObject jsonObject){
 		if(!jsonObject.containsKey(this.userName)){
 			this.addUserToFile(jsonObject);
@@ -92,6 +98,7 @@ public class User implements Scorable{
 	/**
 	 * Adds the current user to the storage file if the current user isn't already in the file
 	 */
+	@SuppressWarnings("unchecked")
 	private void addUserToFile(JSONObject jsonObject) {
 		if(jsonObject.containsKey(this.userName)){
 			return;
@@ -105,14 +112,10 @@ public class User implements Scorable{
 			innermost.put(categoryNames.get(i), 0);
 		}
 		// Create a JSON object for the username
-//		JSONObject newUser = new JSONObject();
-//		// add the innermost json object to the usename object
-//		newUser.put(this.userName, innermost);
-//		System.out.println(newUser);
 		// add the user json object to the given jsonObject
 		jsonObject.put(this.userName, innermost);
 		// write to the file
-		System.out.println("jsonObject is: " + jsonObject);
+		this.writeJSONtoFile(jsonObject);
 		
 	}
 	private JSONObject getJsonObjectFromFile(){
@@ -124,6 +127,18 @@ public class User implements Scorable{
 			e.printStackTrace();
 		}
 		return (JSONObject) obj;
+	}
+	
+	private void writeJSONtoFile(JSONObject jsonObject){
+		try {
+			@SuppressWarnings("resource")
+			FileWriter file = new FileWriter(this.fileName);
+			file.write(jsonObject.toJSONString());
+			file.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

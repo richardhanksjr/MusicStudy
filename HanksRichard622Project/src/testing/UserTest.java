@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import org.apache.commons.lang3.RandomStringUtils;
 import edu.cs622.User;
 
 public class UserTest {
@@ -15,7 +15,9 @@ public class UserTest {
 	@Before
 	public void setUp() throws Exception {
 		// Instantiate the User object for testing
-		this.testUser = new User("testUser1");
+		// Create a random user name
+		String userName = RandomStringUtils.random(10, true, false);
+		this.testUser = new User(userName);
 	}
 
 	// Test that we can get scores from the JSON storage file
