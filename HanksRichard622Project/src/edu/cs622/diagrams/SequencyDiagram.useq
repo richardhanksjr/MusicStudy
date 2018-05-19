@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.2" icons="true" automaticImage="PNG" generate-combined-fragments="true">  
+  <object id="1" language="java" name="edu.cs622.Quiz" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Quiz.java" binary="false" label="quiz" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="154" y="0"/>    
+    <execution id="2">      
+      <position height="84" width="0" x="0" y="188"/>    
+    </execution>    
+    <execution id="7">      
+      <position height="63" width="0" x="0" y="279"/>    
+    </execution>    
+    <execution id="10">      
+      <position height="63" width="0" x="0" y="395"/>    
+    </execution>    
+    <execution id="13">      
+      <position height="84" width="0" x="0" y="501"/>    
+    </execution>    
+    <execution id="15">      
+      <position height="21" width="0" x="0" y="543"/>    
+    </execution>    
+    <execution id="16">      
+      <position height="84" width="0" x="0" y="622"/>    
+    </execution>    
+    <execution id="18">      
+      <position height="21" width="0" x="0" y="664"/>    
+    </execution>    
+    <execution id="20">      
+      <position height="21" width="56" x="5" y="664"/>    
+    </execution>    
+    <execution id="6">      
+      <position height="21" width="56" x="5" y="230"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="84" width="0" x="0" y="101"/>    
+    </execution>    
+    <execution id="23">      
+      <position height="21" width="0" x="0" y="143"/>    
+    </execution>  
+  </object>  
+  <object id="24" language="java" name="edu.cs622.AbstractMajorIntervalQuestion" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/AbstractMajorIntervalQuestion.java" binary="false" 
+    label="abstractMajorIntervalQuestion2" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="12">      
+      <position height="21" width="0" x="0" y="416"/>    
+    </execution>  
+  </object>  
+  <object id="25" language="java" name="edu.cs622.AbstractMajorIntervalQuestion" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/AbstractMajorIntervalQuestion.java" binary="false" 
+    label="abstractMajorIntervalQuestion1" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="9">      
+      <position height="21" width="0" x="0" y="300"/>    
+    </execution>  
+  </object>  
+  <object id="26" language="java" name="edu.cs622.Question" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Question.java" binary="false" label="question1" type="interface" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="4">      
+      <position height="21" width="0" x="0" y="209"/>    
+    </execution>  
+  </object>  
+  <object id="27" language="java" name="edu.cs622.Question" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Question.java" binary="false" label="question" type="interface" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="732" y="0"/>  
+  </object>  
+  <object id="28" language="java" name="edu.cs622.User" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/User.java" binary="false" label="user" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="330" y="0"/>  
+  </object>  
+  <object id="29" language="java" name="edu.cs622.AbstractMajorIntervalQuestion" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/AbstractMajorIntervalQuestion.java" binary="false" 
+    label="abstractMajorIntervalQuestion" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="214" y="0"/>  
+  </object>  
+  <object id="30" language="java" name="edu.cs622.AbstractQuestion" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/AbstractQuestion.java" binary="false" label="abstractQuestion" 
+    type="class" autoSize="true">    
+    <position height="-1" width="-1" x="429" y="0"/>  
+  </object>  
+  <object id="31" language="java" name="edu.cs622.SimpleIntervalUpMajorScale" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/SimpleIntervalUpMajorScale.java" binary="false" 
+    label="simpleIntervalUpMajorScale" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="458" y="0"/>  
+  </object>  
+  <object id="32" language="java" name="edu.cs622.MajorScale" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/MajorScale.java" binary="false" label="majorScale" type="class" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="550" y="0"/>  
+  </object>  
+  <object id="33" language="java" name="edu.cs622.Scale" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Scale.java" binary="false" label="scale" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="707" y="0"/>    
+    <execution id="34">      
+      <position height="84" width="0" x="0" y="134"/>    
+    </execution>    
+    <execution id="36">      
+      <position height="21" width="0" x="0" y="176"/>    
+    </execution>    
+    <execution id="37">      
+      <position height="84" width="0" x="0" y="279"/>    
+    </execution>    
+    <execution id="39">      
+      <position height="21" width="0" x="0" y="321"/>    
+    </execution>    
+    <execution id="40">      
+      <position height="84" width="0" x="0" y="397"/>    
+    </execution>    
+    <execution id="42">      
+      <position height="21" width="0" x="0" y="439"/>    
+    </execution>    
+    <execution id="43">      
+      <position height="84" width="0" x="0" y="523"/>    
+    </execution>    
+    <execution id="45">      
+      <position height="21" width="0" x="0" y="565"/>    
+    </execution>    
+    <execution id="46">      
+      <position height="84" width="0" x="0" y="630"/>    
+    </execution>    
+    <execution id="48">      
+      <position height="21" width="0" x="0" y="672"/>    
+    </execution>    
+    <execution id="49">      
+      <position height="84" width="0" x="0" y="86"/>    
+    </execution>    
+    <execution id="51">      
+      <position height="21" width="0" x="0" y="128"/>    
+    </execution>  
+  </object>  
+  <object id="52" language="java" name="edu.cs622.Scorable" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Scorable.java" binary="false" label="scorable" type="interface" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="878" y="0"/>  
+  </object>  
+  <object id="53" language="java" name="edu.cs622.SimpleIntervalDownMajorScale" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/SimpleIntervalDownMajorScale.java" binary="false" 
+    label="simpleIntervalDownMajorScale" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="858" y="0"/>  
+  </object>  
+  <object id="54" language="java" name="edu.cs622.Quiz" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Quiz.java" binary="false" label="quiz1" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>  
+  </object>  
+  <object id="55" language="java" name="edu.cs622.Quiz" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Quiz.java" binary="false" label="quiz2" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>  
+  </object>  
+  <object id="56" language="java" name="edu.cs622.Quiz" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Quiz.java" binary="false" label="quiz3" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>  
+  </object>  
+  <object id="57" language="java" name="edu.cs622.Quiz" project="HanksRichard622Project" 
+    file="/HanksRichard622Project/src/edu/cs622/Quiz.java" binary="false" label="quiz4" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>  
+  </object>  
+  <message id="3" operation="checkAnswer(java.lang.String):java.lang.Boolean" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="8" operation="getAnswer():java.lang.String" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="11" operation="getQuestion():java.lang.String" asynchronous="false">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="12"/>  
+  </message>  
+  <message id="14" operation="printScores():void" asynchronous="false">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>  
+  <message id="17" operation="questionGenerator():java.util.List&lt;Question&gt;" asynchronous="false">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="18"/>  
+  </message>  
+  <message id="19" asynchronous="false">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="20"/>  
+  </message>  
+  <message id="22" operation="updateScore(java.lang.String):java.lang.String" asynchronous="false">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="23"/>  
+  </message>  
+  <message id="35" operation="getPitchByModeDegree(java.lang.String):int" asynchronous="false">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="36"/>  
+  </message>  
+  <message id="38" operation="getPitchesByName():java.util.Map&lt;String,Integer&gt;" asynchronous="false">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="39"/>  
+  </message>  
+  <message id="41" operation="getPitchesByNumber():java.util.Map&lt;Integer,String&gt;" asynchronous="false">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="42"/>  
+  </message>  
+  <message id="44" operation="getRoot():int" asynchronous="false">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="45"/>  
+  </message>  
+  <message id="47" operation="getScaleDegreeName(int):java.lang.String" asynchronous="false">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="48"/>  
+  </message>  
+  <message id="50" operation="getScaleDegreePitch(java.lang.String):int" asynchronous="false">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="51"/>  
+  </message>
+</sequence-diagram>

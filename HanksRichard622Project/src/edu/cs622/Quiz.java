@@ -65,10 +65,12 @@ public class Quiz {
 					key = "SimpleIntervalDownMajorScale";
 				}
 				user.incrementScore(key);
-				System.out.println("Your new score for " + key + " is " + (user.getSpecificScore(key)));
+				System.out.println("Your new score for " + key + " is " + (user.getSpecificScore(key).get(key)));
 			}else{
-				System.out.println("Sorry, that was not correct.  Correct answer was: " + ((AbstractQuestion)question).answer);
+				System.out.println("Sorry, that was not correct.");
 			}
+			// Whether the answer was correct or not, print the explanation, which will include the correct answer
+			System.out.println(question.getExplanation());
 			// For readability
 			System.out.println("\n ------------------------------------------\n");
 		}
@@ -81,11 +83,7 @@ public class Quiz {
 		
 	}
 	
-	private static String updateScore(String key) {
-		int currentScore = scoring.containsKey(key) ? scoring.get(key): 0;
-		scoring.put(key, currentScore + 1);
-		return "Score for " + key + ": " + scoring.get(key);
-	}
+
 
 	private static void printScores() {
 		for(String key: user.getScores().keySet()){
@@ -100,6 +98,7 @@ public class Quiz {
 	}
 
 	private static List<Question> questionGenerator(){
+//		TODO remove unneeded elements like the initial scoring now that there is persistent storage
 		// A List of the Question subclasses to choose from
 		List<Class <?>> questionClasses = new ArrayList<Class <?>>();
 		// Add questions to a List to randomly select from
@@ -119,10 +118,11 @@ public class Quiz {
 			// Get a random int to be used as the "key" for each question
 			int randomInt = 0 + (int)(Math.random() * ((11 - 0)));
 			try {
+				// This is where we instantiate the question objects before adding them to the List of questions
 				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new Integer(randomInt)});
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 					| SecurityException e) {
-				e.printStackTrace();
+				System.out.println("The program encountered a problem is and is terminating.  Status(1)");
 				System.exit(1);
 			}
 			questions.add(ques);		

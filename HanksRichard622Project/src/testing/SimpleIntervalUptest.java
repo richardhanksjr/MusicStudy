@@ -43,6 +43,14 @@ public class SimpleIntervalUptest {
 		String incorrectAnswer = "Bb";
 		assertEquals(false, intUpCMajor.checkAnswer(incorrectAnswer));
 	}
+	
+	// Test that the feedback explanation to the user on the question is correct
+	@Test
+	public void testCorrectUserAnswerExplanation(){
+		String expectedExplanation = "The mediant of C Major is E.  The note a perfect fifth above E is B.  The answer is B.";
+		String actualExplanation = intUpCMajor.getExplanation();
+		assertEquals(expectedExplanation, actualExplanation);
+	}
 
 
 

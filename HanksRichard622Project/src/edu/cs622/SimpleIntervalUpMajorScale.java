@@ -13,6 +13,10 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 	
 
 
+	private String explanation;
+
+
+
 	// Constructors
 	public SimpleIntervalUpMajorScale(int root){
 		this.scaleInstance = new MajorScale(root);
@@ -57,6 +61,21 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 		int finalNote = Scale.getInterval(modeDegreeInt, intervalHalfSteps);
 		// Convert the int to its String representation
 		this.answer = Scale.getPitchNameMapping().get(finalNote);
+		// Set the explanation
+		String modeDegreeAsPitchName = Scale.getPitchNameMapping().get(modeDegreeInt);
+		this.explanation = String.format("The %s of %s Major is %s.  The note a %s %s is %s.  The answer is %s.",
+				modeDegreeName, key, modeDegreeAsPitchName, interval, modeDegreeAsPitchName, this.answer, this.answer);
+	}
+
+
+
+	/**
+	 * @return an explanation about how we arrived at the code.
+	 * 
+	 */
+	@Override
+	public String getExplanation() {
+		return this.explanation;
 	}
 
 
