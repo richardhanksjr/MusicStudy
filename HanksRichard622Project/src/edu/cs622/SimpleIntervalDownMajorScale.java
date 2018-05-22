@@ -27,6 +27,10 @@ public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 		
 	}
 	
+	/**
+	 * This does the heavy lifting of generating the question, the answer, and the explanation of the answer
+	 * @param interval
+	 */
 	public void generateQuestionAndAnswer(String interval){
 		this.question = String.format(this.questionTemplate, interval, this.key);
 		// Generate answer
@@ -51,6 +55,15 @@ public class SimpleIntervalDownMajorScale extends AbstractMajorIntervalQuestion{
 	@Override
 	public String getExplanation() {
 		return this.answerExplanation;
+	}
+
+
+	/**
+	 * return the key to be used to update the scoring for this type of question
+	 */
+	@Override
+	public String getKey() {
+		return "SimpleIntervalDownMajorScale";
 	}
 
 }

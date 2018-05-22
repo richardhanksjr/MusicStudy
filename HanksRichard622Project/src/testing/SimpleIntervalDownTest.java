@@ -52,5 +52,14 @@ public class SimpleIntervalDownTest {
 		String actualExplanation = intDown.getExplanation();
 		assertEquals(expectedExplanation, actualExplanation);
 	}
+	
+	// Test that the proper key name is returned
+	@Test
+	public void testReturnsCorrectKey(){
+		String expectedKey = "SimpleIntervalDownMajorScale";
+		String actualKey = intDown.getKey();
+		assertEquals(expectedKey, actualKey);
+		
+	}
 
 }

@@ -80,4 +80,14 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 
 
 
+	/**
+	 * return the key used for this question to update the scorign
+	 */
+	@Override
+	public String getKey() {
+		return "SimpleIntervalUpMajorScale";
+	}
+
+
+
 }

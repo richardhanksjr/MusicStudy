@@ -14,4 +14,6 @@ public abstract class AbstractQuestion implements Question {
 		String formattedAnswer = givenAnswer.substring(0, 1).toUpperCase() + givenAnswer.substring(1).toLowerCase();
 		return (formattedAnswer.equals(this.answer));
 	}
+
 }
+

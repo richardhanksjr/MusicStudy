@@ -1,1 +1,2 @@
-This application is runnable through the edu.cs622.Quiz class.  All tests are written in the corresponding classes under the testing package.
+This is a Maven project, with the required dependencies under the Maven Dependecies directory. This application is runnable through the edu.cs622.Quiz class.  All tests are written in the corresponding classes under the testing package.
+You can find the assignment word doc located under /HanksRichard622Project/src/edu/cs622/Hanks_Richard_Assignment2.docx

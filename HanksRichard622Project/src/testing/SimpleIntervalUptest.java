@@ -52,7 +52,14 @@ public class SimpleIntervalUptest {
 		assertEquals(expectedExplanation, actualExplanation);
 	}
 
-
+	// Test that the proper key name is returned
+	@Test
+	public void testReturnsCorrectKey(){
+		String expectedKey = "SimpleIntervalUpMajorScale";
+		String actualKey = intUpCMajor.getKey();
+		assertEquals(expectedKey, actualKey);
+		
+	}
 
 
 }

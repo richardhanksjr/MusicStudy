@@ -10,4 +10,5 @@ public interface Question {
 	public abstract Boolean checkAnswer(String givenAnswer);
 	void generateQuestionAndAnswer();
 	String getExplanation();
+	public abstract String getKey();
 }

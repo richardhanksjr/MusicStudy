@@ -51,7 +51,7 @@ public class User implements Scorable{
 		for(int i = 0; i < categoryNames.size(); i++ ){
 			String key = (String) categoryNames.get(i);
 			// A little funky here, but this is a way to pull out an int from the JSON file
-			// Reading of the values from the file seems to altenate between Long and Integer values. What we want is an Integer, so I am checking what type the value
+			// Reading of the values from the file seems to alternate between Long and Integer values. What we want is an Integer, so I am checking what type the value
 			// is at the key reference and casting appropriately.
 			Integer score = null;
 			if(userScores.get(key).getClass() == java.lang.Long.class){
@@ -122,21 +122,21 @@ public class User implements Scorable{
 		try {
 			obj = parser.parse(new FileReader(this.fileName));
 		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// TODO Log stack trace and time
+			System.out.println("There has been an issue.  Program terminating.  Status(3)");
+			System.exit(3);
 		}
 		return (JSONObject) obj;
 	}
 	
 	private void writeJSONtoFile(JSONObject jsonObject){
-		try {
-			@SuppressWarnings("resource")
-			FileWriter file = new FileWriter(this.fileName);
-			file.write(jsonObject.toJSONString());
-			file.flush();
+		try (FileWriter file = new FileWriter(this.fileName)) {
+				file.write(jsonObject.toJSONString());
+				file.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// TODO Log stack trace and time
+			System.out.println("There has been an issue.  Program terminating.  Status(2)");
+			System.exit(2);
 		}
 	}
 	

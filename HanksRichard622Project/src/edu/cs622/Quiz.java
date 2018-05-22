@@ -49,21 +49,8 @@ public class Quiz {
 			// provide the correct answer
 			if(correctAnswer){
 				System.out.println("Correct!");
-				// Keep track of correct answers for each type of question
-				String key = null;
-				if(question.getClass() == SimpleIntervalUpMajorScale.class){
-//					String key = "Simple Interval Up Major Scale";
-//					String updatedScore = updateScore(key);
-//					System.out.println(updatedScore);
-					key = "SimpleIntervalUpMajorScale";
-					
-
-				}else if(question.getClass() == SimpleIntervalDownMajorScale.class){
-//					String key = "Simple Interval Down Major Scale";
-//					String updatedScore = updateScore(key);
-//					System.out.println(updatedScore);
-					key = "SimpleIntervalDownMajorScale";
-				}
+				String key = question.getKey();
+				System.out.println("Key is: " + key);
 				user.incrementScore(key);
 				System.out.println("Your new score for " + key + " is " + (user.getSpecificScore(key).get(key)));
 			}else{
@@ -74,13 +61,11 @@ public class Quiz {
 			// For readability
 			System.out.println("\n ------------------------------------------\n");
 		}
-
 		reader.close();
 		System.out.println("\n ------------------------------\n");
 		System.out.println("Your scores after this session were:");
 		// Print the final score
-		printScores();
-		
+		printScores();		
 	}
 	
 
@@ -122,6 +107,7 @@ public class Quiz {
 				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new Integer(randomInt)});
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 					| SecurityException e) {
+				// TODO Log stack trace and time
 				System.out.println("The program encountered a problem is and is terminating.  Status(1)");
 				System.exit(1);
 			}
