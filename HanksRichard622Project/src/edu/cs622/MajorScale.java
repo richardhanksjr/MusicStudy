@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MajorScale extends Scale{
+	private String quality;
+
 	/**
 	 * Concrete scale class meant to represent a Major(Ionian) scale
 	 */
@@ -18,6 +20,7 @@ public class MajorScale extends Scale{
 		this.setPitchesToNameMappings();
 		// Set modal degree names
 		modalDegreeNames = MajorScale.setModalDegreeNames();
+		this.quality = "Major";
 
 
 	}
@@ -113,5 +116,13 @@ public class MajorScale extends Scale{
 		// calculate the pitch located the number of half steps above the root
 		return Scale.getInterval(this.root, numHalfSteps);
 
+	}
+
+	/**
+	 * Returns the quality associated with the scale (i.e. Major, minor)
+	 */
+	@Override
+	public String getQuality() {
+		return this.quality;
 	}
 }

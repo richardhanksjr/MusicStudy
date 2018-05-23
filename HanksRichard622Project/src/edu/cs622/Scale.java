@@ -25,6 +25,7 @@ public abstract class Scale {
 	public static final Map<String, Integer> IntervalMapping = getIntervalMapping();
 	protected String[] availableQualities;
 	public static Map<String, Integer> modalDegreeNames = setModalDegreeNames();
+	public abstract String getQuality();
 	
 	/**
 	 * Static method returns the pitch, as an int, a given number

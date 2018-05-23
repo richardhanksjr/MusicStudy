@@ -15,7 +15,7 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorInt
 	public SimpleIntervalDownGeneric(E e){
 		this.scaleInstance = e;
 		this.key = E.getPitchNameMapping().get(this.scaleInstance.getRoot());
-		this.questionTemplate = "What is the note a %s the fifth scale degree in %s Major?";
+		this.questionTemplate = "What is the note a %s the fifth scale degree in %s %s?";
 		this.generateQuestionAndAnswer();
 	}
 
@@ -32,7 +32,7 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorInt
 	 * @param interval
 	 */
 	public void generateQuestionAndAnswer(String interval){
-		this.question = String.format(this.questionTemplate, interval, this.key);
+		this.question = String.format(this.questionTemplate, interval, this.key, this.scaleInstance.getQuality());
 		// Generate answer
 		// Get the fifth scale degree of the key
 		int fifth = Scale.getInterval(this.scaleInstance.getRoot(), 7);
@@ -44,8 +44,8 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorInt
 		this.answer = E.getPitchNameMapping().get(answerInt);
 		String fifthString = E.getPitchNameMapping().get(fifth);
 //		TODO Change "major" to the quality of E at runtime.  Will need to create an abstract getQuality() method on Scale to check
-		this.answerExplanation = String.format("The fifth scale degree of %s Major is %s.  A %s %s is %s. %s is the correct answer.",
-							this.key, fifthString, interval, fifthString, this.answer, this.answer);
+		this.answerExplanation = String.format("The fifth scale degree of %s %s is %s.  A %s %s is %s. %s is the correct answer.",
+							this.key, this.scaleInstance.getQuality(), fifthString, interval, fifthString, this.answer, this.answer);
 	}
 
 

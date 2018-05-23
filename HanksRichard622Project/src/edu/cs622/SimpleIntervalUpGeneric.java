@@ -10,7 +10,7 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 	// Constructors
 	public SimpleIntervalUpGeneric(E e){
 		this.scaleInstance = e;
-		this.questionTemplate = "In the key of %s Major, what is the note a %s the %s?";
+		this.questionTemplate = "In the key of %s %s, what is the note a %s the %s?";
 		// The key is represented by the String at the scaleInstance's root int
 		this.key = E.getPitchNameMapping().get(e.getRoot());
 		this.generateQuestionAndAnswer();
@@ -41,7 +41,7 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 	 * @param modeDegreeName the greek scale degree name (ie, supertonic, mediant)
 	 */
 	public void generateQuestionAndAnswer(String key, String interval, String modeDegreeName) {
-		this.question = String.format(this.questionTemplate, key, interval, modeDegreeName);
+		this.question = String.format(this.questionTemplate, key, this.scaleInstance.getQuality(), interval,  modeDegreeName);
 		// Figure out the answer
 		// Find the modeDegreeName int of the scale
 		int modeDegreeInt = this.scaleInstance.getPitchByModeDegree(modeDegreeName);
@@ -53,8 +53,8 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 		this.answer = E.getPitchNameMapping().get(finalNote);
 		// Set the explanation
 		String modeDegreeAsPitchName = E.getPitchNameMapping().get(modeDegreeInt);
-		this.explanation = String.format("The %s of %s Major is %s.  The note a %s %s is %s.  The answer is %s.",
-				modeDegreeName, key, modeDegreeAsPitchName, interval, modeDegreeAsPitchName, this.answer, this.answer);
+		this.explanation = String.format("The %s of %s %s is %s.  The note a %s %s is %s.  The answer is %s.",
+				modeDegreeName, key, this.scaleInstance.getQuality(), modeDegreeAsPitchName, interval, modeDegreeAsPitchName, this.answer, this.answer);
 	}
 
 
