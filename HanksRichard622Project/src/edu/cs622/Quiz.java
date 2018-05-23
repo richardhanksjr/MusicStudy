@@ -88,10 +88,12 @@ public class Quiz {
 		List<Class <?>> questionClasses = new ArrayList<Class <?>>();
 		// Add questions to a List to randomly select from
 		List<Question> questions = new ArrayList<>();
-		questionClasses.add(SimpleIntervalUpMajorScale.class);
+//		questionClasses.add(SimpleIntervalUpMajorScale.class);
+		questionClasses.add(SimpleIntervalUpGeneric.class);
 		// Set the initial scoring
 		scoring.put("Simple Interval Up Major Scale", 0);
-		questionClasses.add(SimpleIntervalDownMajorScale.class);
+//		questionClasses.add(SimpleIntervalDownMajorScale.class);
+		questionClasses.add(SimpleIntervalDownGeneric.class);
 		// Set the initial scoring
 		Quiz.scoring.put("Simple Interval Down Major Scale", 0);
 		// The number of questions to instantiate
@@ -104,7 +106,9 @@ public class Quiz {
 			int randomInt = 0 + (int)(Math.random() * ((11 - 0)));
 			try {
 				// This is where we instantiate the question objects before adding them to the List of questions
-				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new Integer(randomInt)});
+//				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new Integer(randomInt)});
+				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new MajorScale(randomInt)});
+
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 					| SecurityException e) {
 				// TODO Log stack trace and time

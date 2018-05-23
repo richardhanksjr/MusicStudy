@@ -64,7 +64,7 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorInt
 	 */
 	@Override
 	public String getKey() {
-		return "SimpleIntervalDownMajorScale";
+		return "Compound Scalar Intervals Down";
 	}
 
 }

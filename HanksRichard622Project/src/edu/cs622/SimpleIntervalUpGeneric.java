@@ -75,7 +75,7 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 	 */
 	@Override
 	public String getKey() {
-		return "SimpleIntervalUpMajorScale";
+		return "Compound Scalar Intervals Up";
 	}
 
 
