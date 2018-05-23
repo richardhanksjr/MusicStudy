@@ -6,15 +6,15 @@ package edu.cs622;
  *
  */
 
-public class SimpleIntervalDownMajorScaleGeneric<E> extends AbstractMajorIntervalQuestion{
+public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorIntervalQuestion{
 	
 	private String answerExplanation;
 
 
 	// Constructors
-	public SimpleIntervalDownMajorScaleGeneric(E e){
-		this.scaleInstance = (Scale) e;
-		this.key = MajorScale.getPitchNameMapping().get(this.scaleInstance.getRoot());
+	public SimpleIntervalDownGeneric(E e){
+		this.scaleInstance = e;
+		this.key = E.getPitchNameMapping().get(this.scaleInstance.getRoot());
 		this.questionTemplate = "What is the note a %s the fifth scale degree in %s Major?";
 		this.generateQuestionAndAnswer();
 	}
@@ -37,12 +37,13 @@ public class SimpleIntervalDownMajorScaleGeneric<E> extends AbstractMajorInterva
 		// Get the fifth scale degree of the key
 		int fifth = Scale.getInterval(this.scaleInstance.getRoot(), 7);
 		// Convert the interval to a number of halfsteps
-		int halfStepsInInterval = Scale.getIntervalMapping().get(interval);
+		int halfStepsInInterval = E.getIntervalMapping().get(interval);
 		// Get the given interval below the fifth
-		int answerInt = Scale.getInterval(fifth, halfStepsInInterval);
+		int answerInt = E.getInterval(fifth, halfStepsInInterval);
 		// set the answer as the string
-		this.answer = Scale.getPitchNameMapping().get(answerInt);
-		String fifthString = Scale.getPitchNameMapping().get(fifth);
+		this.answer = E.getPitchNameMapping().get(answerInt);
+		String fifthString = E.getPitchNameMapping().get(fifth);
+//		TODO Change "major" to the quality of E at runtime.  Will need to create an abstract getQuality() method on Scale to check
 		this.answerExplanation = String.format("The fifth scale degree of %s Major is %s.  A %s %s is %s. %s is the correct answer.",
 							this.key, fifthString, interval, fifthString, this.answer, this.answer);
 	}
