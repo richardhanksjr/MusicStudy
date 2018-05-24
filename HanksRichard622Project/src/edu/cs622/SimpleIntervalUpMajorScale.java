@@ -85,7 +85,7 @@ public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
 	 */
 	@Override
 	public String getKey() {
-		return "SimpleIntervalUpMajorScale";
+		return "Compound Scalar Intervals Up";
 	}
 
 

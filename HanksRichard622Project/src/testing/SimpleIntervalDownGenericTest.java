@@ -6,16 +6,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.cs622.MajorScale;
+import edu.cs622.NaturalMinorScale;
 import edu.cs622.SimpleIntervalDownGeneric;
-import edu.cs622.SimpleIntervalDownMajorScale;
 
 public class SimpleIntervalDownGenericTest {
 
 	SimpleIntervalDownGeneric<MajorScale> intDown;
+	SimpleIntervalDownGeneric<NaturalMinorScale> intDownNaturalMinor;
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Before
 	public void setUp() throws Exception {
 		intDown = new SimpleIntervalDownGeneric(new MajorScale(7));
+		intDownNaturalMinor = new SimpleIntervalDownGeneric(new NaturalMinorScale(0));
 	}
 
 	// Test the formatting of the question string
@@ -60,8 +62,49 @@ public class SimpleIntervalDownGenericTest {
 	// Test that the proper key name is returned
 	@Test
 	public void testReturnsCorrectKey(){
-		String expectedKey = "SimpleIntervalDownMajorScale";
+		String expectedKey = "Compound Scalar Intervals Down";
 		String actualKey = intDown.getKey();
+		assertEquals(expectedKey, actualKey);
+		
+	}
+	
+	// TEST THE NATURAL MINOR SCALE VERSION!!!!!
+	// Test the formatting of the question string
+	@Test
+	public void testTheFormattingOfTheQuestionNM() {
+		String expectedQuestion = "What is the note a major 2nd below the fifth scale degree in C Natural Minor?";
+		assertEquals(expectedQuestion, intDownNaturalMinor.getQuestion());
+
+	}
+	
+	// Test that the answer is correct
+	@Test
+	public void testForCorrectAnswerNM(){
+		String expectedAnswer = "F";
+		assertEquals(expectedAnswer, intDownNaturalMinor.getAnswer());
+
+	}
+	
+	// Test that the answer check returns false when the answer isn't correct
+	@Test
+	public void testCheckForIncorrectAnsewrNM(){
+		String incorrectAnswer = "C#";
+		assertEquals(false, intDown.checkAnswer(incorrectAnswer));
+	}
+	
+	// Test that the feedback explanation to the user on the question is correct
+	@Test
+	public void testCorrectUserAnswerExplanationNM(){
+		String expectedExplanation = "The fifth scale degree of C Natural Minor is G.  A major 2nd below G is F. F is the correct answer.";
+		String actualExplanation = intDownNaturalMinor.getExplanation();
+		assertEquals(expectedExplanation, actualExplanation);
+	}
+	
+	// Test that the proper key name is returned
+	@Test
+	public void testReturnsCorrectKeyNM(){
+		String expectedKey = "Compound Scalar Intervals Down";
+		String actualKey = intDownNaturalMinor.getKey();
 		assertEquals(expectedKey, actualKey);
 		
 	}

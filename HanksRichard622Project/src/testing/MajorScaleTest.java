@@ -159,5 +159,13 @@ public class MajorScaleTest {
 		int actualLeadingTone = cMajorScale.getPitchByModeDegree("leading tone");
 		assertEquals(expectedLeadingTone, actualLeadingTone);
 	}
+	
+	// Check that this scale, a Major scale, returns "Major" as it's quality
+	@Test
+	public void testReturnsCorrectScaleQuality(){
+		String expectedQuality = "Major";
+		String actualQuality = cMajorScale.getQuality();
+		assertEquals(expectedQuality, actualQuality);
+	}
 
 }

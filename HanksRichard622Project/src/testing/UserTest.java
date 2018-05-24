@@ -24,8 +24,8 @@ public class UserTest {
 	@Test
 	public void testCanGetScoresFromJSON() {
 		Map<String, Integer> expectedScores = new HashMap<>();
-		expectedScores.put("SimpleIntervalUpMajorScale", 0);
-		expectedScores.put("SimpleIntervalDownMajorScale", 0);
+		expectedScores.put("Compound Scalar Intervals Up", 0);
+		expectedScores.put("Compound Scalar Intervals Down", 0);
 		Map<String, Integer> actualScores = testUser.getScores();
 		assertEquals(expectedScores, actualScores);
 		
@@ -34,9 +34,9 @@ public class UserTest {
 	// Test that we can increment values to the json file and the resulting file has the new values
 	@Test
 	public void testAddScoreToJsonFile(){
-		Integer expectedScoreAfterIncrement = this.testUser.getScores().get("SimpleIntervalUpMajorScale") + 1;
-		this.testUser.incrementScore("SimpleIntervalUpMajorScale");
-		Integer actualScoreAfterIncrement = this.testUser.getScores().get("SimpleIntervalUpMajorScale");
+		Integer expectedScoreAfterIncrement = this.testUser.getScores().get("Compound Scalar Intervals Up") + 1;
+		this.testUser.incrementScore("Compound Scalar Intervals Up");
+		Integer actualScoreAfterIncrement = this.testUser.getScores().get("Compound Scalar Intervals Up");
 		assertEquals(expectedScoreAfterIncrement, actualScoreAfterIncrement);
 	}
 	
@@ -45,8 +45,8 @@ public class UserTest {
 	@Test
 	public void testGetSpecificScoreByType(){
 		Map<String, Integer> expectedScores = new HashMap<>();
-		expectedScores.put("SimpleIntervalUpMajorScale", 0);
-		Map<String, Integer> actualScores = this.testUser.getSpecificScore("SimpleIntervalUpMajorScale");
+		expectedScores.put("Compound Scalar Intervals Up", 0);
+		Map<String, Integer> actualScores = this.testUser.getSpecificScore("Compound Scalar Intervals Up");
 		assertEquals(expectedScores, actualScores);
 		
 		

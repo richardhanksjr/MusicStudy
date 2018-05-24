@@ -55,7 +55,7 @@ public class SimpleIntervalUptest {
 	// Test that the proper key name is returned
 	@Test
 	public void testReturnsCorrectKey(){
-		String expectedKey = "SimpleIntervalUpMajorScale";
+		String expectedKey = "Compound Scalar Intervals Up";
 		String actualKey = intUpCMajor.getKey();
 		assertEquals(expectedKey, actualKey);
 		
