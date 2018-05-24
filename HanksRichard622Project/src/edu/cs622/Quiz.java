@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import testing.SimpleIntervalUptest;
 
@@ -92,7 +93,7 @@ public class Quiz {
 		AbstractQuestion ques = null;
 		int numQuestions = 20;
 		// Keep an array of the available questions by key name, and cycle through to get a random assortment
-		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up"};
+		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval"};
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
 			int questionTemplateIndex = i % questionKeys.length;
@@ -128,6 +129,12 @@ public class Quiz {
 				ques = new SimpleIntervalUpGeneric<NaturalMinorScale>(new NaturalMinorScale(randomKey));
 			}
 			useMajor = !useMajor;
+			break;
+		case "Simple Interval":
+			// Get a random interval key/name
+			Object[] availableKeys = Scale.getIntervalMapping().keySet().toArray();
+			int randomIndexForKeys = 0 + (int)(Math.random() * (availableKeys.length));
+			ques = new SimpleInterval(randomKey, (String) availableKeys[randomIndexForKeys]);
 			break;
 		}
 		return ques;
