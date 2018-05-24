@@ -6,7 +6,7 @@ package edu.cs622;
  *
  */
 
-public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorIntervalQuestion{
+public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIntervalQuestion{
 	
 	private String answerExplanation;
 
@@ -23,7 +23,7 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorInt
 
 	@Override
 	public void generateQuestionAndAnswer() {
-		this.generateQuestionAndAnswer("major 2nd below");
+		this.generateQuestionAndAnswer("major second below");
 		
 	}
 	

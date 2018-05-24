@@ -58,10 +58,29 @@ public abstract class Scale {
 		Map<String, Integer> sampleMapping = new HashMap<>();
 		sampleMapping.put("perfect unison", 0);
 		sampleMapping.put("minor second above",  1);
-		sampleMapping.put("minor 2nd below", -1);
+		sampleMapping.put("minor second below", -1);
 		sampleMapping.put("major second above",  2);
-		sampleMapping.put("major 2nd below", -2);
+		sampleMapping.put("major second below", -2);
+		sampleMapping.put("minor third above", 3);
+		sampleMapping.put("minor third below",  -3);
+		sampleMapping.put("major third above", 4);
+		sampleMapping.put("major third below",  -4);
+		sampleMapping.put("perfect fourth above",  5);
+		sampleMapping.put("perfect fourth below",  -5);
+		sampleMapping.put("tritone above", 6);
+		sampleMapping.put("tritone below",  -6);
+		sampleMapping.put("perfect fifth below", -7);
 		sampleMapping.put("perfect fifth above", 7);
+		sampleMapping.put("minor sixth above", 8);
+		sampleMapping.put("minor sixth below",  -8);
+		sampleMapping.put("major sixth above",  9);
+		sampleMapping.put("major sixth below",  -9);
+		sampleMapping.put("minor seventh above",  10);
+		sampleMapping.put("minor seventh below",  -10);
+		sampleMapping.put("major seventh above",  11);
+		sampleMapping.put("major sevent below",  -11);
+		sampleMapping.put("perfect octave above",  12);
+		sampleMapping.put("perfect octave below",  -12);
 		return sampleMapping;
 
 	}

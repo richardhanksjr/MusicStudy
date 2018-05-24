@@ -23,7 +23,7 @@ public class SimpleIntervalDownGenericTest {
 	// Test the formatting of the question string
 	@Test
 	public void testTheFormattingOfTheQuestion() {
-		String expectedQuestion = "What is the note a major 2nd below the fifth scale degree in G Major?";
+		String expectedQuestion = "What is the note a major second below the fifth scale degree in G Major?";
 		assertEquals(expectedQuestion, intDown.getQuestion());
 
 	}
@@ -54,7 +54,7 @@ public class SimpleIntervalDownGenericTest {
 	// Test that the feedback explanation to the user on the question is correct
 	@Test
 	public void testCorrectUserAnswerExplanation(){
-		String expectedExplanation = "The fifth scale degree of G Major is D.  A major 2nd below D is C. C is the correct answer.";
+		String expectedExplanation = "The fifth scale degree of G Major is D.  A major second below D is C. C is the correct answer.";
 		String actualExplanation = intDown.getExplanation();
 		assertEquals(expectedExplanation, actualExplanation);
 	}
@@ -72,7 +72,7 @@ public class SimpleIntervalDownGenericTest {
 	// Test the formatting of the question string
 	@Test
 	public void testTheFormattingOfTheQuestionNM() {
-		String expectedQuestion = "What is the note a major 2nd below the fifth scale degree in C Natural Minor?";
+		String expectedQuestion = "What is the note a major second below the fifth scale degree in C Natural Minor?";
 		assertEquals(expectedQuestion, intDownNaturalMinor.getQuestion());
 
 	}
@@ -95,7 +95,7 @@ public class SimpleIntervalDownGenericTest {
 	// Test that the feedback explanation to the user on the question is correct
 	@Test
 	public void testCorrectUserAnswerExplanationNM(){
-		String expectedExplanation = "The fifth scale degree of C Natural Minor is G.  A major 2nd below G is F. F is the correct answer.";
+		String expectedExplanation = "The fifth scale degree of C Natural Minor is G.  A major second below G is F. F is the correct answer.";
 		String actualExplanation = intDownNaturalMinor.getExplanation();
 		assertEquals(expectedExplanation, actualExplanation);
 	}
