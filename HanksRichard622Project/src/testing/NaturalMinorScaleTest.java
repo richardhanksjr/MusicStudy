@@ -120,9 +120,9 @@ public class NaturalMinorScaleTest {
 			Map<String, Integer> sampleMapping = new HashMap<>();
 			sampleMapping.put("perfect unison", 0);
 			sampleMapping.put("minor second above",  1);
-			sampleMapping.put("minor 2nd below", -1);
+			sampleMapping.put("minor second below", -1);
 			sampleMapping.put("major second above",  2);
-			sampleMapping.put("major 2nd below", -2);
+			sampleMapping.put("major second below", -2);
 			sampleMapping.put("perfect fifth above", 7);
 			assertEquals(sampleMapping, Scale.IntervalMapping);
 		}

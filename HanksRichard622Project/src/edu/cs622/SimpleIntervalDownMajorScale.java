@@ -23,7 +23,7 @@ public class SimpleIntervalDownMajorScale extends AbstractScalarIntervalQuestion
 
 	@Override
 	public void generateQuestionAndAnswer() {
-		this.generateQuestionAndAnswer("major 2nd below");
+		this.generateQuestionAndAnswer("major second below");
 		
 	}
 	
