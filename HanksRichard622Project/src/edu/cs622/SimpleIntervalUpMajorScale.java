@@ -9,7 +9,7 @@ package edu.cs622;
  *
  */
 
-public class SimpleIntervalUpMajorScale extends AbstractMajorIntervalQuestion{
+public class SimpleIntervalUpMajorScale extends AbstractScalarIntervalQuestion{
 	
 
 

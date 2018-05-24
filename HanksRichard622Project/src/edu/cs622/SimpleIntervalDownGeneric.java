@@ -6,7 +6,7 @@ package edu.cs622;
  *
  */
 
-public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractMajorIntervalQuestion{
+public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIntervalQuestion{
 	
 	private String answerExplanation;
 

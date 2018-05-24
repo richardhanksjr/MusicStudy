@@ -16,6 +16,8 @@ public class Quiz {
 	private static List<Question> questions = questionGenerator();
 	private static Random random = new Random();
 	private static User user = null;
+	// To get an equal sampling of major and minor scales in the interval up and down classes, toggle this boolean value
+	private static boolean useMajor = true;
 
 
 	public static void main(String[] args) {		
@@ -34,6 +36,7 @@ public class Quiz {
 		while(askQuestions){
 			//Get random question
 			question = (AbstractQuestion) getQuestion();
+			System.out.println("question is: " + question);
 			// Ask question
 			System.out.println(((AbstractQuestion)question).question);
 			System.out.println("Enter answer or type \"Q\" to exit");
@@ -83,52 +86,51 @@ public class Quiz {
 	}
 
 	private static List<Question> questionGenerator(){
-//		TODO remove unneeded elements like the initial scoring now that there is persistent storage
-		// A List of the Question subclasses to choose from
-		List<Class <?>> questionClasses = new ArrayList<Class <?>>();
 		// Add questions to a List to randomly select from
 		List<Question> questions = new ArrayList<>();
-//		questionClasses.add(SimpleIntervalUpMajorScale.class);
-		questionClasses.add(SimpleIntervalUpGeneric.class);
-		// Set the initial scoring
-		scoring.put("Simple Interval Up Major Scale", 0);
-//		questionClasses.add(SimpleIntervalDownMajorScale.class);
-		questionClasses.add(SimpleIntervalDownGeneric.class);
-		// Set the initial scoring
-		Quiz.scoring.put("Simple Interval Down Major Scale", 0);
 		// The number of questions to instantiate
 		AbstractQuestion ques = null;
 		int numQuestions = 20;
-		// To get an equal sampling of major and minor scales in the interval up and down classes, toggle this boolean value
-		boolean useMajor = true;
+		// Keep an array of the available questions by key name, and cycle through to get a random assortment
+		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up"};
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
-			int questionTemplateIndex = i % questionClasses.size();
-			// Get a random int to be used as the "key" for each question
-			int randomInt = 0 + (int)(Math.random() * ((11 - 0)));
-
-			try {
-				// This is where we instantiate the question objects before adding them to the List of questions
-				if(useMajor){
-					ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new MajorScale(randomInt)});
-				}else{
-					ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new NaturalMinorScale(randomInt)});
-				}
-				System.out.println(ques.question);
-
-				// Toggle the major/minor flag
-				useMajor = !useMajor;
-
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-					| SecurityException e) {
-				// TODO Log stack trace and time
-				System.out.println("The program encountered a problem is and is terminating.  Status(1)");
-				System.exit(1);
-			}
+			int questionTemplateIndex = i % questionKeys.length;
+			ques = Quiz.getQuestionFromChoices(questionKeys[questionTemplateIndex]);
 			questions.add(ques);		
 		}
 
 		return questions;
+	}
+
+
+	/**
+	 * Uses a switch statement to pick from among the available question options
+	 * @param key the key that is used to identify the type of question to instantiate
+	 * @return an instantiated question subclass
+	 */
+	private static AbstractQuestion getQuestionFromChoices(String key) {
+		int randomKey = 0 + (int)(Math.random() * ((11 - 0)));
+		AbstractQuestion ques = null;
+		switch(key){
+		case "Compound Scalar Intervals Down":
+			if(useMajor){
+				ques = new SimpleIntervalDownGeneric<MajorScale>(new MajorScale(randomKey));
+			}else{
+				ques = new SimpleIntervalDownGeneric<NaturalMinorScale>(new NaturalMinorScale(randomKey));
+			}
+			useMajor = !useMajor;
+			break;
+		case "Compound Scalar Intervals Up":
+			if(useMajor){
+				ques = new SimpleIntervalUpGeneric<MajorScale>(new MajorScale(randomKey));
+			}else{
+				ques = new SimpleIntervalUpGeneric<NaturalMinorScale>(new NaturalMinorScale(randomKey));
+			}
+			useMajor = !useMajor;
+			break;
+		}
+		return ques;
 	}
 
 }

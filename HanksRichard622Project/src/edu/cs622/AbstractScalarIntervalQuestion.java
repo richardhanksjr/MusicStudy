@@ -1,6 +1,6 @@
 package edu.cs622;
 
-public abstract class AbstractMajorIntervalQuestion extends AbstractQuestion{
+public abstract class AbstractScalarIntervalQuestion extends AbstractQuestion{
 	protected Scale scaleInstance;
 	protected String key;
 	protected String quality;
