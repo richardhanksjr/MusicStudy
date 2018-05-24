@@ -99,15 +99,25 @@ public class Quiz {
 		// The number of questions to instantiate
 		AbstractQuestion ques = null;
 		int numQuestions = 20;
+		// To get an equal sampling of major and minor scales in the interval up and down classes, toggle this boolean value
+		boolean useMajor = true;
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
 			int questionTemplateIndex = i % questionClasses.size();
 			// Get a random int to be used as the "key" for each question
 			int randomInt = 0 + (int)(Math.random() * ((11 - 0)));
+
 			try {
 				// This is where we instantiate the question objects before adding them to the List of questions
-//				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new Integer(randomInt)});
-				ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new MajorScale(randomInt)});
+				if(useMajor){
+					ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new MajorScale(randomInt)});
+				}else{
+					ques = (AbstractQuestion)questionClasses.get(questionTemplateIndex).getConstructors()[0].newInstance(new Object[]{new NaturalMinorScale(randomInt)});
+				}
+				System.out.println(ques.question);
+
+				// Toggle the major/minor flag
+				useMajor = !useMajor;
 
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 					| SecurityException e) {
