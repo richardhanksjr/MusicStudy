@@ -1,15 +1,13 @@
 package edu.cs622;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Set;
-
-import testing.SimpleIntervalUptest;
 
 public class Quiz {
 	// A mapping to keep track of the total questions correct for each type of question
@@ -92,7 +90,8 @@ public class Quiz {
 		AbstractQuestion ques = null;
 		int numQuestions = 20;
 		// Keep an array of the available questions by key name, and cycle through to get a random assortment
-		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval"};
+		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval",
+				"Simple Scale Chords"};
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
 			int questionTemplateIndex = i % questionKeys.length;
@@ -135,6 +134,16 @@ public class Quiz {
 			int randomIndexForKeys = 0 + (int)(Math.random() * (availableKeys.length));
 			ques = new SimpleInterval(randomKey, (String) availableKeys[randomIndexForKeys]);
 			break;
+		case "Simple Scale Chords":
+			// modeDegreeNames like tonic, mediant, etc.
+			Object[] modeDegreeNames = Scale.modalDegreeNames.keySet().toArray();
+			// Get three DIFFERENT mode degree names
+			ArrayList<Integer> one = new ArrayList<>(Arrays.asList(1, 2, 3));
+			ArrayList<Integer> two = new ArrayList<>(Arrays.asList(1, 3, 2));
+			Collections.sort(one);
+			Collections.sort(two);
+			System.out.println(one.equals(two));
+
 		}
 		return ques;
 	}
