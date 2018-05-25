@@ -37,7 +37,6 @@ public class Quiz {
 		while(askQuestions){
 			//Get random question
 			question = (AbstractQuestion) getQuestion();
-			System.out.println("question is: " + question);
 			// Ask question
 			System.out.println(((AbstractQuestion)question).question);
 			System.out.println("Enter answer or type \"Q\" to exit");
