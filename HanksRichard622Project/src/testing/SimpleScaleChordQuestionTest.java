@@ -33,5 +33,13 @@ public class SimpleScaleChordQuestionTest {
 		String actualAnswer = ques.getAnswer();
 		assertEquals(expectedAnswer, actualAnswer);
 	}
+	
+	// Test for the correct explanation
+	@Test
+	public void testForExplanation(){
+		String expectedAnswer = "The tonic is C, the mediant is E, and the dominant is G.  In the key of C Major this is the I chord. I is the answer.";
+		String actualAnswer = ques.getExplanation();
+		assertEquals(expectedAnswer, actualAnswer);
+	}
 
 }
