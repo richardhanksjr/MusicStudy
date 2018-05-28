@@ -1,15 +1,14 @@
 package edu.cs622;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
-
-import testing.SimpleIntervalUptest;
 
 public class Quiz {
 	// A mapping to keep track of the total questions correct for each type of question
@@ -37,7 +36,6 @@ public class Quiz {
 		while(askQuestions){
 			//Get random question
 			question = (AbstractQuestion) getQuestion();
-			System.out.println("question is: " + question);
 			// Ask question
 			System.out.println(((AbstractQuestion)question).question);
 			System.out.println("Enter answer or type \"Q\" to exit");
@@ -54,7 +52,6 @@ public class Quiz {
 			if(correctAnswer){
 				System.out.println("Correct!");
 				String key = question.getKey();
-				System.out.println("Key is: " + key);
 				user.incrementScore(key);
 				System.out.println("Your new score for " + key + " is " + (user.getSpecificScore(key).get(key)));
 			}else{
@@ -91,16 +88,16 @@ public class Quiz {
 		List<Question> questions = new ArrayList<>();
 		// The number of questions to instantiate
 		AbstractQuestion ques = null;
-		int numQuestions = 20;
+		int numQuestions = 200;
 		// Keep an array of the available questions by key name, and cycle through to get a random assortment
-		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval"};
+		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval",
+				"Simple Scale Chords"};
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
 			int questionTemplateIndex = i % questionKeys.length;
 			ques = Quiz.getQuestionFromChoices(questionKeys[questionTemplateIndex]);
 			questions.add(ques);		
 		}
-
 		return questions;
 	}
 
@@ -136,6 +133,21 @@ public class Quiz {
 			int randomIndexForKeys = 0 + (int)(Math.random() * (availableKeys.length));
 			ques = new SimpleInterval(randomKey, (String) availableKeys[randomIndexForKeys]);
 			break;
+		case "Simple Scale Chords":
+			// Get the available chords from which to choose
+			Map<String, List<Integer>> availableChords = ScaleChordQuestion.intervalsInChordMajorScale;
+			//Get the available chord keys
+			ArrayList<String> availableChordKeys = new ArrayList<>(availableChords.keySet());
+			// Randomly select a key from the available keys
+			int randomIndex = 0 + (int)(Math.random() * availableChordKeys.size());
+			// Select the chord, as intervals, using the random key
+			List<Integer> chordAsIntervals = availableChords.get(availableChordKeys.get(randomIndex));
+			// Get the scale degree names for the given chord
+			List<String> scaleDegreeNamesInChord = ScaleChordQuestion.scaleDegreeNamesForChordIntervals(chordAsIntervals);
+			// instantiate a simple scale chord question
+			String[] scaleDegreeNamesInChordAsArray = scaleDegreeNamesInChord.toArray(new String[scaleDegreeNamesInChord.size()]);
+			ques = new SimpleScaleChordQuestion<MajorScale>(new MajorScale(randomKey), scaleDegreeNamesInChordAsArray);
+
 		}
 		return ques;
 	}

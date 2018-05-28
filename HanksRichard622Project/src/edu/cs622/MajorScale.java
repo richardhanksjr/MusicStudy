@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class MajorScale extends SevenNoteAbstract{
 	private String quality;
+	static Map<Integer, String> modalDegreeNamesByNumber;
+	
 
 	/**
 	 * Concrete scale class meant to represent a Major(Ionian) scale
@@ -18,6 +20,7 @@ public class MajorScale extends SevenNoteAbstract{
 		this.setPitchesToNameMappings();
 		// Set modal degree names
 		modalDegreeNames = this.setModalDegreeNames();
+		modalDegreeNamesByNumber = setModalDegreeNumber();
 		this.quality = "Major";
 	}
 	
@@ -37,6 +40,26 @@ public class MajorScale extends SevenNoteAbstract{
 		return tempMap;
 	}
 
+	/**
+	 * Sets the mapping between a scale degree NUMBER and it's scale degree name.  This is the 
+	 * opposite lookup to m
+	 */
+	@Override
+	protected Map<Integer, String> setModalDegreeNumber() {
+		Map<Integer, String> tempMap = new HashMap<>();
+		tempMap.put(0,  "tonic");
+		tempMap.put(2,  "supertonic");
+		tempMap.put(4,  "mediant");
+		tempMap.put(5,  "subdominant");
+		tempMap.put(7,  "dominant");
+		tempMap.put(9,  "submediant");
+		tempMap.put(11,  "leading tone");
+		return tempMap;
+	}
+	
+	public static String getModalDegreeNameByPitchNumber(int pitchNumber){
+		return modalDegreeNamesByNumber.get(pitchNumber);
+	}
 	
 	/**
 	 * Returns the quality associated with the scale (i.e. Major, minor)
@@ -51,8 +74,6 @@ public class MajorScale extends SevenNoteAbstract{
 		int[] diatonicPitches = {0, 2, 4, 5, 7, 9, 11};
 		return diatonicPitches;
 	}
-
-
 }
 
 

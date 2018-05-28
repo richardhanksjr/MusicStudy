@@ -78,7 +78,7 @@ public abstract class Scale {
 		sampleMapping.put("minor seventh above",  10);
 		sampleMapping.put("minor seventh below",  -10);
 		sampleMapping.put("major seventh above",  11);
-		sampleMapping.put("major sevent below",  -11);
+		sampleMapping.put("major seventh below",  -11);
 		sampleMapping.put("perfect octave above",  12);
 		sampleMapping.put("perfect octave below",  -12);
 		return sampleMapping;
@@ -135,6 +135,5 @@ public abstract class Scale {
 	 * @precondition modeDegreeName is a proper name, spelled correctly
 	 */
 	public abstract int getPitchByModeDegree(String modeDegreeName);
-	
-	
+		
 }

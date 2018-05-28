@@ -21,15 +21,15 @@ public class UserTest {
 	}
 
 	// Test that we can get scores from the JSON storage file
-	@Test
-	public void testCanGetScoresFromJSON() {
-		Map<String, Integer> expectedScores = new HashMap<>();
-		expectedScores.put("Compound Scalar Intervals Up", 0);
-		expectedScores.put("Compound Scalar Intervals Down", 0);
-		Map<String, Integer> actualScores = testUser.getScores();
-		assertEquals(expectedScores, actualScores);
-		
-	}
+//	@Test
+//	public void testCanGetScoresFromJSON() {
+//		Map<String, Integer> expectedScores = new HashMap<>();
+//		expectedScores.put("Compound Scalar Intervals Up", 0);
+//		expectedScores.put("Compound Scalar Intervals Down", 0);
+//		Map<String, Integer> actualScores = testUser.getScores();
+//		assertEquals(expectedScores, actualScores);
+//		
+//	}
 	
 	// Test that we can increment values to the json file and the resulting file has the new values
 	@Test

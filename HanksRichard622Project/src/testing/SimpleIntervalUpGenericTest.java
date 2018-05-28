@@ -15,6 +15,9 @@ public class SimpleIntervalUpGenericTest {
 	@Before
 	public void setUp() throws Exception {
 		intUpCMajor = new SimpleIntervalUpGeneric(new MajorScale(0));
+		// call the overloaded generateQuestionAndAnswer method to control the params for the test.
+		// In regular use, the no args version is called and random values are passed.
+		intUpCMajor.generateQuestionAndAnswer("C", "perfect fifth above", "mediant");
 	}
 
 	// Test that the question String is properly formatted after being called in the constructor

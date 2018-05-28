@@ -17,16 +17,14 @@ public class SimpleIntervalDownGenericTest {
 	@Before
 	public void setUp() throws Exception {
 		intDown = new SimpleIntervalDownGeneric(new MajorScale(7));
+		// Need to explicitly call with this value to override the default randomness that is passed to the no args version of generateQuestionAndAnswer()
+		intDown.generateQuestionAndAnswer("major second below");
 		intDownNaturalMinor = new SimpleIntervalDownGeneric(new NaturalMinorScale(0));
+		// Need to explicitly call with this value to override the default randomness that is passed to the no args version of generateQuestionAndAnswer()
+		intDownNaturalMinor.generateQuestionAndAnswer("major second below");
 	}
 
-	// Test the formatting of the question string
-	@Test
-	public void testTheFormattingOfTheQuestion() {
-		String expectedQuestion = "What is the note a major second below the fifth scale degree in G Major?";
-		assertEquals(expectedQuestion, intDown.getQuestion());
 
-	}
 	
 	// Test that the answer is correct
 	@Test
@@ -68,11 +66,24 @@ public class SimpleIntervalDownGenericTest {
 		
 	}
 	
+	
+	// Test the formatting of the question string
+	@Test
+	public void testTheFormattingOfTheQuestion() {
+		String expectedQuestion = "What is the note a major second below the fifth scale degree in G Major?";
+		// Printing actual value to for homework submission example
+		System.out.println(intDown.getQuestion());
+		assertEquals(expectedQuestion, intDown.getQuestion());
+
+	}
+	
 	// TEST THE NATURAL MINOR SCALE VERSION!!!!!
 	// Test the formatting of the question string
 	@Test
 	public void testTheFormattingOfTheQuestionNM() {
 		String expectedQuestion = "What is the note a major second below the fifth scale degree in C Natural Minor?";
+		// Printing actual value to for homework submission example
+		System.out.println(intDownNaturalMinor.getQuestion());
 		assertEquals(expectedQuestion, intDownNaturalMinor.getQuestion());
 
 	}
