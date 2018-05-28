@@ -37,6 +37,11 @@ public class NaturalMinorScale extends SevenNoteAbstract {
 	public String getQuality() {
 		return this.quality;
 	}
+
+	@Override
+	protected Map<Integer, String> setModalDegreeNumber() {
+		return null;
+	}
 	
 
 

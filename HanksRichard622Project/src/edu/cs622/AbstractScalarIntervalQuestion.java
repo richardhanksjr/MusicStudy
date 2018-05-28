@@ -18,4 +18,6 @@ public abstract class AbstractScalarIntervalQuestion extends AbstractQuestion{
 	public String getAnswer() {
 		return this.answer;
 	}
+
+
 }

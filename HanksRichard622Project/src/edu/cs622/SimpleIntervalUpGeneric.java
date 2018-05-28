@@ -1,5 +1,8 @@
 package edu.cs622;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 	private String explanation;
 	private String key;
@@ -18,8 +21,6 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 	}
 	
 
-
-
 	/**
 	 * Inherited method from the superclass.  This version of the method takes care of calling the 
 	 * string formatted method with the proper values.  This should be the method to use as the default
@@ -30,9 +31,27 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 	@Override
 	public void generateQuestionAndAnswer() {
 		//String key = this.scaleInstance.getPitchesByNumber().get(this.scaleInstance.getRoot());
-		this.generateQuestionAndAnswer(this.key, "perfect fifth above", "mediant");
+		String randomInterval = this.getRandomIntervalString();
+		String randomScaleDegree = this.getRandomScaleDegree();
+		this.generateQuestionAndAnswer(this.key, randomInterval, randomScaleDegree);
 	}
 	
+	private String getRandomScaleDegree() {
+		Random rand = new Random();
+		return new ArrayList<String>(MajorScale.modalDegreeNames.keySet()).get(rand.nextInt(MajorScale.modalDegreeNames.keySet().size()));
+	}
+
+
+	/**
+	 * 
+	 * @return  A string that indicates the interval size and direction (e.g. perfect fifth above
+	 */
+	private String getRandomIntervalString() {
+		Random rand = new Random();
+		return new ArrayList<String>(Scale.getIntervalMapping().keySet()).get(rand.nextInt(Scale.getIntervalMapping().size()));
+	}
+
+
 	/**
 	 * This version of the method receives the parameters either directly from the caller or from the no-args
 	 * version of the method.

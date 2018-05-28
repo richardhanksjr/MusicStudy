@@ -1,11 +1,9 @@
 package edu.cs622;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQuestion {
+public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQuestion{
 	private E scaleInstance;
 	// For storing the scale degree names to be looked up
 	private String[] chordScaleDegrees;
@@ -26,11 +24,9 @@ public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQu
 				rootName, this.scaleInstance.getQuality());
 		// Get the answer
 		List<Integer> chordDegreeNumbers = new LinkedList<>();
-		chordDegreeNumbers.add(Scale.getModalDegreeNames().get(chordScaleDegrees[0]));
-		chordDegreeNumbers.add(Scale.getModalDegreeNames().get(chordScaleDegrees[1]));
-		chordDegreeNumbers.add(Scale.getModalDegreeNames().get(chordScaleDegrees[2]));
-		
-//		Collections.sort(chordDegreeNumbers);
+		chordDegreeNumbers.add(MajorScale.getModalDegreeNames().get(chordScaleDegrees[0]));
+		chordDegreeNumbers.add(MajorScale.getModalDegreeNames().get(chordScaleDegrees[1]));
+		chordDegreeNumbers.add(MajorScale.getModalDegreeNames().get(chordScaleDegrees[2]));
 		this.answer = ScaleChordQuestion.chordLookupMajorScale(chordDegreeNumbers);
 		// Get the names of the notes in the chord
 		// Since the pitches we have are the RELATIONSHIPS of the intervals, and not the absolute pitches, we need to transpose by the pitch of the root
@@ -52,5 +48,6 @@ public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQu
 	public String getKey() {
 		return "Simple Scale Chords";
 	}
+
 
 }

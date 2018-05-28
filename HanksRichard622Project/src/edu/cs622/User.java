@@ -1,7 +1,5 @@
 package edu.cs622;
 
-import static java.lang.Math.toIntExact;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -119,10 +117,10 @@ public class User implements Scorable{
 	}
 	private JSONObject getJsonObjectFromFile(){
 		Object obj = null;
-		try {
-			obj = parser.parse(new FileReader(this.fileName));
+		// Try with resources!!!
+		try(FileReader fileReader = new FileReader(this.fileName)) {
+			obj = parser.parse(fileReader);
 		} catch (IOException | ParseException e) {
-			// TODO Log stack trace and time
 			System.out.println("There has been an issue.  Program terminating.  Status(3)");
 			System.exit(3);
 		}
@@ -134,7 +132,6 @@ public class User implements Scorable{
 				file.write(jsonObject.toJSONString());
 				file.flush();
 		} catch (IOException e) {
-			// TODO Log stack trace and time
 			System.out.println("There has been an issue.  Program terminating.  Status(2)");
 			System.exit(2);
 		}

@@ -1,5 +1,9 @@
 package edu.cs622;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+
 /**
  * Class for generating a question and answer to test downward intervals in a major scale
  * @author Richard Hanks
@@ -20,11 +24,14 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIn
 	}
 
 
-
 	@Override
 	public void generateQuestionAndAnswer() {
-		this.generateQuestionAndAnswer("major second below");
-		
+		// Get a random interval
+		Random rand = new Random();
+		Map<String, Integer> intervalMapping = Scale.getIntervalMapping();
+		String randomKey = new ArrayList<String>(intervalMapping.keySet()).get(rand.nextInt(intervalMapping.keySet().size()));
+		// Call overloaded method with random key
+		this.generateQuestionAndAnswer(randomKey);
 	}
 	
 	/**
@@ -43,7 +50,6 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIn
 		// set the answer as the string
 		this.answer = E.getPitchNameMapping().get(answerInt);
 		String fifthString = E.getPitchNameMapping().get(fifth);
-//		TODO Change "major" to the quality of E at runtime.  Will need to create an abstract getQuality() method on Scale to check
 		this.answerExplanation = String.format("The fifth scale degree of %s %s is %s.  A %s %s is %s. %s is the correct answer.",
 							this.key, this.scaleInstance.getQuality(), fifthString, interval, fifthString, this.answer, this.answer);
 	}

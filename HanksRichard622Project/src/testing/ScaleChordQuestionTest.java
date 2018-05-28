@@ -24,13 +24,13 @@ public class ScaleChordQuestionTest {
 	@Test
 	public void testForCorrectChordLookup() {
 		String expectedValue = "I";
-		String actualValue = ScaleChordQuestion.chordLookup(Arrays.asList(0, 4, 7));
+		String actualValue = ScaleChordQuestion.chordLookupMajorScale(Arrays.asList(0, 4, 7));
 		assertEquals(expectedValue, actualValue);
 		expectedValue = "ii";
-		actualValue = ScaleChordQuestion.chordLookup(Arrays.asList(2, 5, 9));
+		actualValue = ScaleChordQuestion.chordLookupMajorScale(Arrays.asList(2, 5, 9));
 		assertEquals(expectedValue, actualValue);
 		expectedValue = "iii";
-		actualValue = ScaleChordQuestion.chordLookup(Arrays.asList(4, 9, 12));
+		actualValue = ScaleChordQuestion.chordLookupMajorScale(Arrays.asList(4, 7, 11));
 		assertEquals(expectedValue, actualValue);
 	}
 

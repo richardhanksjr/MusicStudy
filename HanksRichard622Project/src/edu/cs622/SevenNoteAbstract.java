@@ -12,6 +12,7 @@ public abstract class SevenNoteAbstract extends Scale {
 	
 
 	protected abstract  Map<String, Integer> setModalDegreeNames();
+	protected abstract Map<Integer, String> setModalDegreeNumber();
 
 
 	/**
