@@ -1,12 +1,14 @@
 package edu.cs622;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 	private String explanation;
 	private String key;
 	private E scaleInstance;
+	private String[] incorrectAnswerOptions;
 
 
 
@@ -74,8 +76,28 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 		String modeDegreeAsPitchName = E.getPitchNameMapping().get(modeDegreeInt);
 		this.explanation = String.format("The %s of %s %s is %s.  The note a %s %s is %s.  The answer is %s.",
 				modeDegreeName, key, this.scaleInstance.getQuality(), modeDegreeAsPitchName, interval, modeDegreeAsPitchName, this.answer, this.answer);
+		this.incorrectAnswerOptions = this.setIncorrectAnswerOptions(finalNote);
 	}
 
+
+
+	private String[] setIncorrectAnswerOptions(int answerInt) {
+		Random rand = new Random();
+		Map<Integer, String> pitchNameMapping = E.getPitchNameMapping();
+		ArrayList<Integer> keys = new ArrayList<>(pitchNameMapping.keySet());
+		int numAnswers = 3;
+		String[] answers = new String[numAnswers];
+		int index;
+		for(int i = 0; i < numAnswers; i++){
+			index = rand.nextInt(keys.size());
+			// If the random int is the answer, get another int until they are different
+			while(index == answerInt){
+				index = rand.nextInt(keys.size());
+			}
+			answers[i] = pitchNameMapping.get(index);
+		}
+		return answers;
+	}
 
 
 	/**
@@ -109,6 +131,12 @@ public class SimpleIntervalUpGeneric<E extends Scale> extends AbstractQuestion {
 
 	public String getAnswer() {
 		return this.answer;
+	}
+
+
+	@Override
+	public String[] getIncorrectAnswerOptions() {
+		return this.incorrectAnswerOptions;
 	}
 
 }

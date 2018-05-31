@@ -90,4 +90,13 @@ public class SimpleIntervalUpMajorScale extends AbstractScalarIntervalQuestion{
 
 
 
+
+	@Override
+	public String[] getIncorrectAnswerOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 }

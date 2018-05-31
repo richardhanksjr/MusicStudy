@@ -1,4 +1,11 @@
 package edu.cs622;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -95,10 +102,23 @@ public class QuizApplication extends Application{
 		Text questionText = new Text(question.getQuestion());
 		questionText.wrappingWidthProperty().bind(gameScene.widthProperty().subtract(30));
 		grid.add(questionText, 2, 2);
+		// Get the list of incorrect options
+		String[] incorrectAnswers = ((AbstractQuestion) question).getIncorrectAnswerOptions();
 		Button correctQuesBtn = new Button(question.getAnswer());
+		Button incorrect0 = new Button(incorrectAnswers[0]);
+		Button incorrect1 = new Button(incorrectAnswers[1]);
+		Button incorrect2 = new Button(incorrectAnswers[2]);
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BASELINE_CENTER);
-		hbBtn.getChildren().add(correctQuesBtn);
+		// Need to randomize the order the buttons are added so that the correct answer
+		// isn't always in the same location.  Making a list of the available buttons shuffling
+		// the order of buttons and then adding them to hbBtn in the shuffled order
+		List<Button> buttons = new ArrayList<>(Arrays.asList(correctQuesBtn, incorrect0, incorrect1, incorrect2));
+		Collections.shuffle(buttons);
+		for(Button button: buttons){
+			hbBtn.getChildren().add(button);
+
+		}
 		grid.add(hbBtn, 2, 4);
 		stage.setScene(gameScene);
 		correctQuesBtn.setOnAction(new EventHandler<ActionEvent>(){
@@ -106,6 +126,42 @@ public class QuizApplication extends Application{
 			public void handle(ActionEvent e){
 				try {
 					setAnswerScene(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		incorrect0.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e){
+				try {
+					setAnswerScene(false);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		incorrect1.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e){
+				try {
+					setAnswerScene(false);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		incorrect2.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e){
+				try {
+					setAnswerScene(false);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -177,9 +233,12 @@ public class QuizApplication extends Application{
 		Scene exitScene = new Scene(grid, 400, 275);
 		// Create a variable to store the scores and then append to the screen
 		StringBuilder scoresString = new StringBuilder();
-		for(String key: user.getScores().keySet()){
-			scoresString.append(key + ": " + user.getScores().get(key) + "\n");
-		}
+//		Stream<Map<String, Integer>> userScores = Stream.of(user.getScores());
+		Map<String, Integer> userScores = user.getScores();
+		userScores.entrySet().stream().forEach((elem) -> scoresString.append(elem.getKey() + ": " + elem.getValue() + "\n"));
+//		for(String key: user.getScores().keySet()){
+//			scoresString.append(key + ": " + user.getScores().get(key) + "\n");
+//		}
 		Text scoresText = new Text(scoresString.toString());
 		grid.add(scoresText, 2,0);
 		Button quitButton = new Button("Exit");

@@ -1,13 +1,16 @@
 package edu.cs622;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQuestion{
 	private E scaleInstance;
 	// For storing the scale degree names to be looked up
 	private String[] chordScaleDegrees;
 	private String explanation;
+	private String[] incorrectAnswerOptions;
 	
 	// Constructor
 	public SimpleScaleChordQuestion(E e, String[] chordScaleDegrees){
@@ -37,8 +40,25 @@ public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQu
 		this.explanation = String.format("The %s is %s, the %s is %s, and the %s is %s.  In the key of %s Major this is the %s chord. %s is the answer.",
 				chordScaleDegrees[0], note1, chordScaleDegrees[1], note2, chordScaleDegrees[2], note3, rootName,
 				this.answer, this.answer);
+		this.incorrectAnswerOptions = this.setIncorrectAnswerOptions(this.answer);
 	}
 
+	private String[] setIncorrectAnswerOptions(String answer) {
+		Random rand = new Random();
+		int numIncorrectAnswers = 3;
+		ArrayList<String> allChordOptions = new ArrayList<>(ScaleChordQuestion.intervalsInChordMajorScale.keySet());
+		String[] incorrectAnswers = new String[numIncorrectAnswers];
+		String nextAnswer;
+		for(int i = 0; i < numIncorrectAnswers; i++){
+			nextAnswer = allChordOptions.get(rand.nextInt(allChordOptions.size()));
+			// Check that we're not including the actual answer in the list of incorrect answers
+			while(nextAnswer.equals(answer)){
+				nextAnswer = allChordOptions.get(rand.nextInt(allChordOptions.size()));
+			}
+			incorrectAnswers[i] = nextAnswer;
+		}
+		return incorrectAnswers;
+	}
 	@Override
 	public String getExplanation() {
 		return this.explanation;
@@ -47,6 +67,10 @@ public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQu
 	@Override
 	public String getKey() {
 		return "Simple Scale Chords";
+	}
+	@Override
+	public String[] getIncorrectAnswerOptions() {
+		return this.incorrectAnswerOptions;
 	}
 
 

@@ -66,4 +66,12 @@ public class SimpleIntervalDownMajorScale extends AbstractScalarIntervalQuestion
 		return "SimpleIntervalDownMajorScale";
 	}
 
+
+
+	@Override
+	public String[] getIncorrectAnswerOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

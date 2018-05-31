@@ -3,6 +3,7 @@ package edu.cs622;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Class for generating a question and answer to test downward intervals in a major scale
@@ -13,6 +14,7 @@ import java.util.Random;
 public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIntervalQuestion{
 	
 	private String answerExplanation;
+	private String[] incorrectAnswerOptions;
 
 
 	// Constructors
@@ -52,6 +54,30 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIn
 		String fifthString = E.getPitchNameMapping().get(fifth);
 		this.answerExplanation = String.format("The fifth scale degree of %s %s is %s.  A %s %s is %s. %s is the correct answer.",
 							this.key, this.scaleInstance.getQuality(), fifthString, interval, fifthString, this.answer, this.answer);
+		this.incorrectAnswerOptions = this.setIncorrectAnswerOptions(answerInt);
+	}
+
+
+	/**
+	 * Sets the incorrect answer options with options that are appropriate to the actual answer
+	 * @return an array of incorrect answers
+	 */
+	private String[] setIncorrectAnswerOptions(int answerInt) {
+		Random rand = new Random();
+		Map<Integer, String> pitchNameMapping = E.getPitchNameMapping();
+		ArrayList<Integer> keys = new ArrayList<>(pitchNameMapping.keySet());
+		int numAnswers = 3;
+		String[] answers = new String[numAnswers];
+		int index;
+		for(int i = 0; i < numAnswers; i++){
+			index = rand.nextInt(keys.size());
+			// If the random int is the answer, get another int until they are different
+			while(index == answerInt){
+				index = rand.nextInt(keys.size());
+			}
+			answers[i] = pitchNameMapping.get(index);
+		}
+		return answers;
 	}
 
 
@@ -71,6 +97,15 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIn
 	@Override
 	public String getKey() {
 		return "Compound Scalar Intervals Down";
+	}
+
+
+	/**
+	 * Return an array of answer options that are incorrect, appropriate to the type of answer (e.g., Letter, Roman Numeral)
+	 */
+	@Override
+	public String[] getIncorrectAnswerOptions() {
+		return this.incorrectAnswerOptions;
 	}
 
 }

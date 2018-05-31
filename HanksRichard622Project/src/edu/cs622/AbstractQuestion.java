@@ -10,6 +10,7 @@ public abstract class AbstractQuestion implements Question {
 	protected String questionTemplate;
 	protected String question;
 	protected String answer;
+	public abstract String[] getIncorrectAnswerOptions();
 	public Boolean checkAnswer(String givenAnswer) {
 		// Check that the format of the answer given matches what's expected
 		if(givenAnswer.equals(this.answer)){
