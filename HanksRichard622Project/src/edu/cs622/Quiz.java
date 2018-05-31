@@ -78,12 +78,12 @@ public class Quiz {
 		
 	}
 
-	private static Question getQuestion() {
+	static Question getQuestion() {
 		int index = random.nextInt(questions.size());
 		return questions.get(index);
 	}
 
-	private static List<Question> questionGenerator(){
+	static List<Question> questionGenerator(){
 		// Add questions to a List to randomly select from
 		List<Question> questions = new ArrayList<>();
 		// The number of questions to instantiate

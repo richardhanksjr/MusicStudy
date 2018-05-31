@@ -1,5 +1,9 @@
 package edu.cs622;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+
 /**
  * Class that asks simple questions like "What is the note a perfect fifth above c?"
  * @param key String the string representation of this question type
@@ -15,6 +19,7 @@ public class SimpleInterval extends AbstractQuestion {
 	private int base;
 	private String interval;
 	private String answerExplanation;
+	private String[] incorrectAnswerOptions;
 	
 	public SimpleInterval(int base, String interval){
 		this.key = "Simple Interval";
@@ -40,8 +45,27 @@ public class SimpleInterval extends AbstractQuestion {
 		this.answer = Scale.pitchNameMapping.get(answerAsInt);
 		this.answerExplanation = String.format("The note a %s %s is %s.  The answer is %s.", this.interval,
 				baseAsString, this.answer, this.answer);
+		this.incorrectAnswerOptions = this.setIncorrectAnswerOptions(answerAsInt);
 	}
 
+
+	private String[] setIncorrectAnswerOptions(int answerAsInt) {
+		Random rand = new Random();
+		Map<Integer, String> pitchNameMapping = Scale.getPitchNameMapping();
+		ArrayList<Integer> keys = new ArrayList<>(pitchNameMapping.keySet());
+		int numAnswers = 3;
+		String[] answers = new String[numAnswers];
+		int index;
+		for(int i = 0; i < numAnswers; i++){
+			index = rand.nextInt(keys.size());
+			// If the random int is the answer, get another int until they are different
+			while(index == answerAsInt){
+				index = rand.nextInt(keys.size());
+			}
+			answers[i] = pitchNameMapping.get(index);
+		}
+		return answers;
+	}
 
 	@Override
 	public String getExplanation() {
@@ -61,6 +85,11 @@ public class SimpleInterval extends AbstractQuestion {
 	@Override
 	public String getAnswer() {
 		return this.answer;
+	}
+
+	@Override
+	public String[] getIncorrectAnswerOptions() {
+		return this.incorrectAnswerOptions;
 	}
 
 }
