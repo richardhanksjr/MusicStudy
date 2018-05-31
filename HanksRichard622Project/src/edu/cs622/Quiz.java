@@ -1,14 +1,11 @@
 package edu.cs622;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Quiz {
 	// A mapping to keep track of the total questions correct for each type of question
@@ -91,7 +88,7 @@ public class Quiz {
 		int numQuestions = 200;
 		// Keep an array of the available questions by key name, and cycle through to get a random assortment
 		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval",
-				"Simple Scale Chords"};
+				"Simple Scale Chords", "Simple Clef Question"};
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
 			int questionTemplateIndex = i % questionKeys.length;
@@ -147,7 +144,28 @@ public class Quiz {
 			// instantiate a simple scale chord question
 			String[] scaleDegreeNamesInChordAsArray = scaleDegreeNamesInChord.toArray(new String[scaleDegreeNamesInChord.size()]);
 			ques = new SimpleScaleChordQuestion<MajorScale>(new MajorScale(randomKey), scaleDegreeNamesInChordAsArray);
-
+			break;
+		case "Simple Clef Question":
+			// Make an array of available clefs and randomly choose which one to use to populate the Generic SimpleClefQuestion class
+			String[] availableClefs = {"tenor clef", "alto clef"};
+			// Select a random clef
+			Random rand = new Random();
+			String randomClef = availableClefs[rand.nextInt(availableClefs.length)];
+			String randomStaffLocation = Clef.getRandomStaffLocation();
+			switch(randomClef){
+			case "alto clef":
+				// Get a random staffLocation
+				AltoClef altoClef = new AltoClef();
+				// question is a SimpleClefQuestion with the given random staffLocation
+				ques = new SimpleClefQuestion<AltoClef>(altoClef, randomStaffLocation);
+				break;
+			case "tenor clef":
+				// Get a random staffLocation
+				TenorClef tenorClef = new TenorClef();
+				// question is a SimpleClefQuestion with the given random staffLocation
+				ques = new SimpleClefQuestion<TenorClef>(tenorClef, randomStaffLocation);
+				break;
+			}
 		}
 		return ques;
 	}

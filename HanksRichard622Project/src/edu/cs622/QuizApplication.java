@@ -233,12 +233,8 @@ public class QuizApplication extends Application{
 		Scene exitScene = new Scene(grid, 400, 275);
 		// Create a variable to store the scores and then append to the screen
 		StringBuilder scoresString = new StringBuilder();
-//		Stream<Map<String, Integer>> userScores = Stream.of(user.getScores());
 		Map<String, Integer> userScores = user.getScores();
 		userScores.entrySet().stream().forEach((elem) -> scoresString.append(elem.getKey() + ": " + elem.getValue() + "\n"));
-//		for(String key: user.getScores().keySet()){
-//			scoresString.append(key + ": " + user.getScores().get(key) + "\n");
-//		}
 		Text scoresText = new Text(scoresString.toString());
 		grid.add(scoresText, 2,0);
 		Button quitButton = new Button("Exit");
