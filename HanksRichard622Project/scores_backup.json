@@ -1,9 +1,5 @@
 {
-	"categoryNames": ["SimpleIntervalDownMajorScale", "SimpleIntervalDownMajorScale"],
-	"testUser": 
-		{"SimpleIntervalDownMajor": 0}, {"SimpleIntervalUpMajorScale":}
+	"categoryNames": ["Compound Scalar Intervals Up", "Compound Scalar Intervals Down", "Simple Scale Chords", "Simple Interval"]
+
 	
-
-
-
 }
