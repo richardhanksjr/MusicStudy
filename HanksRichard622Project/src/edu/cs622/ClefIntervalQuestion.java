@@ -35,11 +35,9 @@ public class ClefIntervalQuestion<E extends Clef> extends AbstractQuestion {
 				e.getKey(), this.secondStaffLocation, e.getKey());
 		// Generate answer
 		// Get the note int at the first location
-		System.out.println("first location: " + this.firstStaffLocation);
 		int firstLocationAsInt = e.getNoteStaffMappingToIntegers().get(this.firstStaffLocation);
 		String firstLocationName = e.getNoteStaffMap().get(this.firstStaffLocation);
 		// Get the note int at the second location
-		System.out.println("second staff location: " + this.secondStaffLocation);
 
 		int secondLocationAsInt = e.getNoteStaffMappingToIntegers().get(this.secondStaffLocation);
 		String secondLocationName = e.getNoteStaffMap().get(this.secondStaffLocation);
@@ -50,9 +48,7 @@ public class ClefIntervalQuestion<E extends Clef> extends AbstractQuestion {
 				e.getKey(), secondLocationName, secondLocationName, this.answer, firstLocationName);
 		// Generate incorrect answers
 		this.incorrectAnswerOptions = this.setIncorrectAnswerOptions();
-		for(String elem: this.incorrectAnswerOptions){
-			System.out.println(elem);
-		}
+
 }
 
 	private String[] setIncorrectAnswerOptions() {

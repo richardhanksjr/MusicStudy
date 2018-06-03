@@ -104,9 +104,13 @@ public class QuizApplication extends Application{
 		// Get the list of incorrect options
 		String[] incorrectAnswers = ((AbstractQuestion) question).getIncorrectAnswerOptions();
 		Button correctQuesBtn = new Button(question.getAnswer());
+		correctQuesBtn.wrapTextProperty().setValue(true);
 		Button incorrect0 = new Button(incorrectAnswers[0]);
+		incorrect0.wrapTextProperty().setValue(true);
 		Button incorrect1 = new Button(incorrectAnswers[1]);
+		incorrect1.wrapTextProperty().setValue(true);
 		Button incorrect2 = new Button(incorrectAnswers[2]);
+		incorrect2.wrapTextProperty().setValue(true);
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BASELINE_CENTER);
 		// Need to randomize the order the buttons are added so that the correct answer
