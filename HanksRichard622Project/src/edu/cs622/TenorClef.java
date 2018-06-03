@@ -40,4 +40,19 @@ public class TenorClef extends Clef {
 	public Map<String, String> getNoteStaffMap(){
 		return this.noteStaffMapping;
 	}
+
+	@Override
+	public Map<String, Integer> getNoteStaffMappingToIntegers() {
+		Map<String, Integer> tempMap = new HashMap<>();
+		tempMap.put("first line",  2);
+		tempMap.put("first space",  4);
+		tempMap.put("second line",  5);
+		tempMap.put("second space",  7);
+		tempMap.put("third line",  9);
+		tempMap.put("third space",  11);
+		tempMap.put("fourth line",  12);
+		tempMap.put("fourth space",  14);
+		tempMap.put("fifth line",  16);
+		return tempMap;
+	}
 }

@@ -72,7 +72,6 @@ public class QuizApplication extends Application{
 			public void handle(ActionEvent e){
 				try {
 					QuizApplication.user = new User(userNameText.getText());
-					System.out.println("user scores: " + QuizApplication.user.getScores());
 					setGameScene();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

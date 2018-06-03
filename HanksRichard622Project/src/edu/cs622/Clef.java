@@ -10,6 +10,7 @@ public abstract class Clef {
 	public abstract String getKey();
 	public abstract String getNoteAtStaffLocation(String staffLocation);
 	public abstract Map<String, String> getNoteStaffMap();
+	public abstract Map<String, Integer> getNoteStaffMappingToIntegers();
 	public static List<String> staffLocations(){
 		List<String> staffLocations = new ArrayList<>(Arrays.asList("first line", "first space", "second line", "second space",
 				"third line", "third space", "fourth line", "fourth space", "fifth line"));

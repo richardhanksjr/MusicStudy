@@ -167,5 +167,12 @@ public class MajorScaleTest {
 		String actualQuality = cMajorScale.getQuality();
 		assertEquals(expectedQuality, actualQuality);
 	}
+	
+	@Test
+	public void checkIntervalLookupByInt(){
+		String expectedOutput = "perfect octave below";
+		String actualOutput = Scale.getIntervalMappingByInt().get(-12);
+		assertEquals(expectedOutput, actualOutput);
+	}
 
 }

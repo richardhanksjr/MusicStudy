@@ -88,7 +88,7 @@ public class Quiz {
 		int numQuestions = 200;
 		// Keep an array of the available questions by key name, and cycle through to get a random assortment
 		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval",
-				"Simple Scale Chords", "Simple Clef Question"};
+				"Simple Scale Chords", "Simple Clef Question", "Clef Interval Question"};
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
 			int questionTemplateIndex = i % questionKeys.length;
@@ -107,6 +107,8 @@ public class Quiz {
 	private static AbstractQuestion getQuestionFromChoices(String key) {
 		int randomKey = 0 + (int)(Math.random() * ((11 - 0)));
 		AbstractQuestion ques = null;
+		String[] availableClefs = {"tenor clef", "alto clef"};
+		Random rand = new Random();
 		switch(key){
 		case "Compound Scalar Intervals Down":
 			if(useMajor){
@@ -147,9 +149,7 @@ public class Quiz {
 			break;
 		case "Simple Clef Question":
 			// Make an array of available clefs and randomly choose which one to use to populate the Generic SimpleClefQuestion class
-			String[] availableClefs = {"tenor clef", "alto clef"};
 			// Select a random clef
-			Random rand = new Random();
 			String randomClef = availableClefs[rand.nextInt(availableClefs.length)];
 			String randomStaffLocation = Clef.getRandomStaffLocation();
 			switch(randomClef){
@@ -166,6 +166,26 @@ public class Quiz {
 				ques = new SimpleClefQuestion<TenorClef>(tenorClef, randomStaffLocation);
 				break;
 			}
+			break;
+		case "Clef Interval Question":
+			randomClef = availableClefs[rand.nextInt(availableClefs.length)];
+			randomStaffLocation = Clef.getRandomStaffLocation();
+			String randomStaffLocation2 = Clef.getRandomStaffLocation();
+			switch(randomClef){
+			case "alto clef":
+				// Get a random staffLocation
+				AltoClef altoClef = new AltoClef();
+				// question is a SimpleClefQuestion with the given random staffLocation
+				ques = new ClefIntervalQuestion<AltoClef>(altoClef, randomStaffLocation, randomStaffLocation2);
+				break;
+			case "tenor clef":
+				// Get a random staffLocation
+				TenorClef tenorClef = new TenorClef();
+				// question is a SimpleClefQuestion with the given random staffLocation
+				ques = new ClefIntervalQuestion<TenorClef>(tenorClef, randomStaffLocation, randomStaffLocation2);
+				break;
+			}
+			break;
 		}
 		return ques;
 	}

@@ -1,8 +1,10 @@
 package edu.cs622;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public abstract class Scale {
 /**
@@ -54,7 +56,7 @@ public abstract class Scale {
 	 * representation of the interval in half steps (aka semi tones)
 	 * TODO this mapping is incomplete.  Need to finish to be fully functional!
 	 */
-	static Map<String, Integer> getIntervalMapping() {
+	public static Map<String, Integer> getIntervalMapping() {
 		Map<String, Integer> sampleMapping = new HashMap<>();
 		sampleMapping.put("perfect unison", 0);
 		sampleMapping.put("minor second above",  1);
@@ -84,6 +86,27 @@ public abstract class Scale {
 		return sampleMapping;
 
 	}
+	
+	public static String getRandomIntervalKey(){
+		List<String> availableKeys = new ArrayList<String>(getIntervalMapping().keySet());
+		Random rand = new Random();
+		return availableKeys.get(rand.nextInt(availableKeys.size()));
+	}
+	
+	/**
+	 * This is the reverse lookup to getIntervalMapping.  Returns a mapping between an interval, as an int, and the 
+	 * corresponding string key representation.
+	 * @return The mapping between an Interval as a key and the String representation of the interval
+	 */
+	public static Map<Integer, String> getIntervalMappingByInt(){
+		Map<Integer, String> sampleMapping = new HashMap<>();
+		Map<String, Integer> originalMapping = getIntervalMapping();
+		for(String key: originalMapping.keySet()){
+			sampleMapping.put(originalMapping.get(key), key);
+		}
+		return sampleMapping;
+		
+	}
 	public abstract String getScaleDegreeName(int scaleDegree);
 	public abstract int getScaleDegreePitch(String name);
 	public abstract int getRoot();
@@ -109,6 +132,21 @@ public abstract class Scale {
 		placeHolderMapping.put(11,  "B");
 		
 		return placeHolderMapping;
+	}
+	
+	
+	/**
+	 * The reverse mapping to getPitchNameMapping. Returns a mapping between the pitch name and the note int value
+	 * @return
+	 */
+	public static Map<String, Integer> getNamePitchMapping(){
+		Map<String, Integer> placeHolderMapping = new HashMap<>();
+		for(int key: getPitchNameMapping().keySet()){
+			placeHolderMapping.put(getPitchNameMapping().get(key), key);
+		}
+		return placeHolderMapping;
+		
+		
 	}
 	
 	/**
