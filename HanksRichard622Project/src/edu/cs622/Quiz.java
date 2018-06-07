@@ -22,7 +22,7 @@ public class Quiz {
 		// Beginning of program, prompt user for user name and display their scores
 		System.out.println("Hello!  Please enter your username to begin:");
 		String userName = reader.next();
-		user = new User(userName);
+		user = new UserDatabase(userName);
 		System.out.println("Hello, " + userName + ".  Your current scores are:");
 		printScores();
 		System.out.println("\n\n_____________________________________________________");
