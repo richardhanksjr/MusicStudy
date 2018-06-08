@@ -8,7 +8,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -18,19 +20,9 @@ public class Database {
 	
 	public static void main(String[] args){
 		Database db = new Database();
-//		db.dropTable();
-//		db.createTable();
-//		db.createNewUser("test user2");
-		db.incrementScoreForUser("test user2", "\"Compound Scalar Intervals Up\"");
+		db.incrementScoreForUser("test user2", "Compound Scalar Intervals Up");
 		Map<String, Integer> results = db.getAllScoresForUser("test user2");
-//		try {
-//			while(results.next()){
-//					System.out.println(results.getString(1) + ": " + results.getString(2));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-		
+		System.out.println(results);
 	}
     private String framework = "embedded";
     private String protocol = "jdbc:derby:";
@@ -48,22 +40,16 @@ public class Database {
     	props.put("user",  "user1");
     	props.put("password",  "user1");
     	this.dbName = "derbyDB";
-//    	try {
-//			this.conn = DriverManager.getConnection(protocol + dbName
-//			        + ";create=true", props);
-//            conn.setAutoCommit(false);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
     }
     
     /**
      * Calls method to create a table using the appropriate SQL for the table we need
      */
     public void createTable(){
-    	this.createOrDropTable("create table user_scores(username varchar(40) not null, \"Compound Scalar Intervals Down\" int default 0,"
-    			+ "\"Compound Scalar Intervals Up\" int default 0, \"Simple Scale Chords\" int default 0, \"Simple Interval\" int default 0, \"Simple Clef Question\" int default 0,"
-    			+ "\"Clef Interval Question\" int default 0, primary key(username))");
+    	this.createOrDropTable("create table user_score (username varchar(40) not null, primary key(username))");
+    	this.createOrDropTable("create table score (question_key varchar(40) not null, total int default 0,"
+    			+ " username varchar(40) not null, primary key(question_key, username),"
+    			+ "foreign key (username) references user_score(username))") ;
         System.out.println("Table successfully created");
     }
     
@@ -71,8 +57,9 @@ public class Database {
      * Calls method to drop a table using the appriate SQL for the table we need
      */
     public void dropTable(){
-    	this.createOrDropTable("drop table user_scores");
-        System.out.println("Table successfully dropped");
+    	this.createOrDropTable("drop table user_score");
+    	this.createOrDropTable("drop table score");
+        System.out.println("Tables successfully dropped");
     }
     
     /**
@@ -87,7 +74,7 @@ public class Database {
         		this.conn = DriverManager.getConnection(protocol + dbName
     		        + ";create=true", props);
                 conn.setAutoCommit(false);
-                PreparedStatement psQuery = conn.prepareStatement("select count(*) from user_scores where username = ?");
+                PreparedStatement psQuery = conn.prepareStatement("select count(*) from user_score where username = ?");
                 // Get the column names
                 psQuery.setString(1, username);
                 rs = psQuery.executeQuery();
@@ -97,38 +84,8 @@ public class Database {
                 	return true;
                 }
                 // Need to put a commit here to release the read lock.
-//                conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
-    		//} finally{
-//                    // release all open resources to avoid unnecessary memory usage
-//
-//                    // Statements and PreparedStatements
-//                    int i = 0;
-//                    while (!statements.isEmpty()) {
-//                        // PreparedStatement extend Statement
-//                        Statement st = (Statement)statements.remove(i);
-//                        try {
-//                            if (st != null) {
-//                                st.close();
-//                                st = null;
-//                            }
-//                        } catch (SQLException sqle) {
-//                        	System.out.println("212");
-//                            System.out.println(sqle);
-//                        }
-//                    }
-
-                    //Connection
-//                    try {
-//                        if (conn != null) {
-//                            conn.close();
-//                            conn = null;
-//                        }
-//                    } catch (SQLException sqle) {
-//                    	System.out.println("224");
-//                        System.out.println(sqle);
-//                    }
     		}
         return false;
 
@@ -142,14 +99,21 @@ public class Database {
     			        + ";create=true", props);
                 conn.setAutoCommit(false);
     			Statement s = conn.createStatement();
-    			PreparedStatement psInsert = conn.prepareStatement("insert into user_scores (username) values(?)");
+    			PreparedStatement psInsert = conn.prepareStatement("insert into user_score (username) values(?)");
     			statements.add(psInsert);
     			psInsert.setString(1,  username);
-//    			psInsert.setInt(2,  0);
     			psInsert.executeUpdate();
+    			// List of all available question keys for use in populating the relation tables
+    			List<String> questionKeyNames = new ArrayList<String>(Arrays.asList("Compound Scalar Intervals Down", "Compound Scalar Intervals Up",
+    					"Simple Scale Chords", "Simple Interval", "Simple Clef Question", "Clef Interval Question"));
+    			PreparedStatement scoresPsInsert;
+    			for(String questionName:questionKeyNames){
+        			scoresPsInsert = conn.prepareStatement("insert into score(question_key, username) values (?,?)");
+        			scoresPsInsert.setString(1,  questionName);
+        			scoresPsInsert.setString(2,  username);
+        			scoresPsInsert.executeUpdate();
+    			}
     			conn.commit();
-//                statements.add(s);
-//                s.execute(createTableStatement);
     			System.out.println("User inserted successfully");
                 conn.commit();
     		} catch (SQLException e) {
@@ -197,15 +161,12 @@ public class Database {
     			        + ";create=true", props);
                 conn.setAutoCommit(false);
     			Statement s = conn.createStatement();
-    			PreparedStatement psInsert = conn.prepareStatement("update user_scores set " + questionTypeKey + " = " + questionTypeKey + " + 1 where username = ?");
+    			PreparedStatement psInsert = conn.prepareStatement("update score set total = total + 1 where username = ? and question_key = ?");
     			statements.add(psInsert);
-//    			psInsert.setString(1,  questionTypeKey);
     			psInsert.setString(1,  username);
+    			psInsert.setString(2,  questionTypeKey);
     			psInsert.executeUpdate();
     			conn.commit();
-//                statements.add(s);
-//                s.execute(createTableStatement);
-                conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
     		}finally {
@@ -249,60 +210,21 @@ public class Database {
         		this.conn = DriverManager.getConnection(protocol + dbName
     		        + ";create=true", props);
                 conn.setAutoCommit(false);
-                PreparedStatement psQuery = conn.prepareStatement("select * from user_scores where username = ?");
+                PreparedStatement psQuery = conn.prepareStatement("select score.question_key, score.total from score left outer join user_score on score.username = user_score.username where user_score.username = ?");
                 // Get the column names
-//                ResultSetMetaData meta = psQuery.getMetaData();
-//               int numColumnsInResults = meta.getColumnCount();
                 psQuery.setString(1, username);
                 rs = psQuery.executeQuery();
                 ResultSetMetaData meta = rs.getMetaData();
-//                System.out.println(meta);
                 int numColumnsInResults = meta.getColumnCount();
-//                System.out.println("num columns: " + numColumnsInResults);
-//                System.out.println("1: " + meta.getColumnName(1));
-//                System.out.println("2: " + meta.getColumnName(2));
-
                 while(rs.next()){
                 	for(int i=2; i<=numColumnsInResults; i++){
-                		scoresMap.put(meta.getColumnName(i), rs.getInt(i));
+                		scoresMap.put(rs.getString(1), rs.getInt(2));
                 	}
                 }
-                System.out.println(scoresMap);
                 // Need to put a commit here to release the read lock.
-//                conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
-    		//} finally{
-//                    // release all open resources to avoid unnecessary memory usage
-//
-//                    // Statements and PreparedStatements
-//                    int i = 0;
-//                    while (!statements.isEmpty()) {
-//                        // PreparedStatement extend Statement
-//                        Statement st = (Statement)statements.remove(i);
-//                        try {
-//                            if (st != null) {
-//                                st.close();
-//                                st = null;
-//                            }
-//                        } catch (SQLException sqle) {
-//                        	System.out.println("212");
-//                            System.out.println(sqle);
-//                        }
-//                    }
-
-                    //Connection
-//                    try {
-//                        if (conn != null) {
-//                            conn.close();
-//                            conn = null;
-//                        }
-//                    } catch (SQLException sqle) {
-//                    	System.out.println("224");
-//                        System.out.println(sqle);
-//                    }
     		}
-        System.out.println(scoresMap);
 		return scoresMap;
         
     }
