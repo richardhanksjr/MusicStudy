@@ -88,7 +88,7 @@ public class Quiz {
 		int numQuestions = 200;
 		// Keep an array of the available questions by key name, and cycle through to get a random assortment
 		String[] questionKeys = {"Compound Scalar Intervals Down", "Compound Scalar Intervals Up", "Simple Interval",
-				"Simple Scale Chords", "Simple Clef Question", "Clef Interval Question"};
+				"Simple Scale Chords", "Simple Clef Question", "Clef Interval Question", "Simple Scale Degree"};
 		for(int i = 0; i<numQuestions; i++){
 			// To get a random sampling of the questions in the questionClasses List
 			int questionTemplateIndex = i % questionKeys.length;
@@ -186,7 +186,17 @@ public class Quiz {
 				break;
 			}
 			break;
+		case "Simple Scale Degree":
+				String randomScalePosition = SevenNoteAbstract.getRandomScalePosition();
+				if(useMajor){
+					ques = new SimpleScaleDegreeQuestion<MajorScale>(new MajorScale(randomKey), randomScalePosition);
+				}else{
+					ques = new SimpleScaleDegreeQuestion<NaturalMinorScale>(new NaturalMinorScale(randomKey), randomScalePosition);
+				}
+				useMajor = !useMajor;
+				break;
 		}
+
 		return ques;
 	}
 

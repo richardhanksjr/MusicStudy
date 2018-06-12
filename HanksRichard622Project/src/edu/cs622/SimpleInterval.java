@@ -1,6 +1,7 @@
 package edu.cs622;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -59,7 +60,7 @@ public class SimpleInterval extends AbstractQuestion {
 		for(int i = 0; i < numAnswers; i++){
 			index = rand.nextInt(keys.size());
 			// If the random int is the answer, get another int until they are different
-			while(index == answerAsInt){
+			while(index == answerAsInt || Arrays.asList(answers).contains(index)){
 				index = rand.nextInt(keys.size());
 			}
 			answers[i] = pitchNameMapping.get(index);

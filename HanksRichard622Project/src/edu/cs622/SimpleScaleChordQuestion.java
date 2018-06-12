@@ -1,6 +1,7 @@
 package edu.cs622;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -52,7 +53,7 @@ public class SimpleScaleChordQuestion<E extends MajorScale> extends ScaleChordQu
 		for(int i = 0; i < numIncorrectAnswers; i++){
 			nextAnswer = allChordOptions.get(rand.nextInt(allChordOptions.size()));
 			// Check that we're not including the actual answer in the list of incorrect answers
-			while(nextAnswer.equals(answer)){
+			while(nextAnswer.equals(answer) || Arrays.asList(incorrectAnswers).contains(nextAnswer)){
 				nextAnswer = allChordOptions.get(rand.nextInt(allChordOptions.size()));
 			}
 			incorrectAnswers[i] = nextAnswer;

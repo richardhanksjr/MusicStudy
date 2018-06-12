@@ -1,6 +1,7 @@
 package edu.cs622;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,11 +21,15 @@ public class Database {
 	
 	public static void main(String[] args){
 		Database db = new Database();
-		db.incrementScoreForUser("test user2", "Compound Scalar Intervals Up");
-		Map<String, Integer> results = db.getAllScoresForUser("test user2");
+//		db.dropTable();
+//		db.createTable();
+//		db.createNewUser("new user test");		
+		Map<String, Integer> results = db.getAllScoresForUser("new user test");
+		System.out.println(results);
+		db.incrementScoreForUser("new user test", "Compound Scalar Intervals Up");
+		results = db.getAllScoresForUser("new user test");
 		System.out.println(results);
 	}
-    private String framework = "embedded";
     private String protocol = "jdbc:derby:";
     Connection conn = null;
     ArrayList<Statement> statements = new ArrayList<Statement>(); // list of Statements, PreparedStatements
@@ -40,25 +45,44 @@ public class Database {
     	props.put("user",  "user1");
     	props.put("password",  "user1");
     	this.dbName = "derbyDB";
+    	// Create the necessary tables.  If the tables already exist, the exception will be caught and it will just move on without creating.
+//    	this.createTable();
     }
     
     /**
      * Calls method to create a table using the appropriate SQL for the table we need
      */
     public void createTable(){
-    	this.createOrDropTable("create table user_score (username varchar(40) not null, primary key(username))");
-    	this.createOrDropTable("create table score (question_key varchar(40) not null, total int default 0,"
-    			+ " username varchar(40) not null, primary key(question_key, username),"
-    			+ "foreign key (username) references user_score(username))") ;
-        System.out.println("Table successfully created");
+    	try{
+        	this.createOrDropTable("create table user_score (username varchar(40) not null, primary key(username))");
+        	this.createOrDropTable("create table score (question_key varchar(40) not null, total int default 0,"
+        			+ " username varchar(40) not null, primary key(question_key, username),"
+        			+ "foreign key (username) references user_score(username))") ;
+            System.out.println("Table successfully created");
+    	}catch( SQLException e){
+    		System.out.println(e);
+    		return;
+    	}
+
     }
     
     /**
-     * Calls method to drop a table using the appriate SQL for the table we need
+     * Calls method to drop a table using the apporiate SQL for the table we need
      */
     public void dropTable(){
-    	this.createOrDropTable("drop table user_score");
-    	this.createOrDropTable("drop table score");
+    	try {
+			this.createOrDropTable("drop table score");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			this.createOrDropTable("drop table user_score");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
         System.out.println("Tables successfully dropped");
     }
     
@@ -81,11 +105,30 @@ public class Database {
                 rs.next();
                 int countForUser = rs.getInt(1);
                 if (countForUser > 0){
+                    conn.commit();
                 	return true;
                 }
                 // Need to put a commit here to release the read lock.
+                conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
+    		}finally{
+    			if(rs != null){
+    				try {
+						rs.close();
+						rs = null;
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+    			}
+    			if(conn != null){
+    				try {
+						conn.close();
+						conn = null;
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+    			}
     		}
         return false;
 
@@ -98,14 +141,13 @@ public class Database {
     			this.conn = DriverManager.getConnection(protocol + dbName
     			        + ";create=true", props);
                 conn.setAutoCommit(false);
-    			Statement s = conn.createStatement();
     			PreparedStatement psInsert = conn.prepareStatement("insert into user_score (username) values(?)");
     			statements.add(psInsert);
     			psInsert.setString(1,  username);
     			psInsert.executeUpdate();
     			// List of all available question keys for use in populating the relation tables
     			List<String> questionKeyNames = new ArrayList<String>(Arrays.asList("Compound Scalar Intervals Down", "Compound Scalar Intervals Up",
-    					"Simple Scale Chords", "Simple Interval", "Simple Clef Question", "Clef Interval Question"));
+    					"Simple Scale Chords", "Simple Interval", "Simple Clef Question", "Clef Interval Question", "Simple Scale Degree"));
     			PreparedStatement scoresPsInsert;
     			for(String questionName:questionKeyNames){
         			scoresPsInsert = conn.prepareStatement("insert into score(question_key, username) values (?,?)");
@@ -115,14 +157,10 @@ public class Database {
     			}
     			conn.commit();
     			System.out.println("User inserted successfully");
-                conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
     		}finally {
                 // release all open resources to avoid unnecessary memory usage
-
-
-
                 // Statements and PreparedStatements
                 int i = 0;
                 while (!statements.isEmpty()) {
@@ -210,7 +248,8 @@ public class Database {
         		this.conn = DriverManager.getConnection(protocol + dbName
     		        + ";create=true", props);
                 conn.setAutoCommit(false);
-                PreparedStatement psQuery = conn.prepareStatement("select score.question_key, score.total from score left outer join user_score on score.username = user_score.username where user_score.username = ?");
+                PreparedStatement psQuery = conn.prepareStatement("select score.question_key, score.total from score left outer join user_score on score.username = user_score.username where user_score.username = ?"
+                		+ "order by score.question_key");
                 // Get the column names
                 psQuery.setString(1, username);
                 rs = psQuery.executeQuery();
@@ -222,28 +261,53 @@ public class Database {
                 	}
                 }
                 // Need to put a commit here to release the read lock.
+                conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
+    		}finally{
+    			int i = 0;
+                while (!statements.isEmpty()) {
+                    // PreparedStatement extend Statement
+                    Statement st = (Statement)statements.remove(i);
+                    try {
+                        if (st != null) {
+                            st.close();
+                            st = null;
+                        }
+                    } catch (SQLException sqle) {
+                        System.out.println(sqle);
+                    }
+                }
+                
+                //Connection
+                try {
+                    if (conn != null) {
+                        conn.close();
+                        conn = null;
+                    }
+                } catch (SQLException sqle) {
+                    System.out.println(sqle);
+                }
+                
     		}
 		return scoresMap;
         
     }
     
-    public void createOrDropTable(String createTableStatement){
+    public void createOrDropTable(String createTableStatement) throws SQLException{
         try {
     			this.conn = DriverManager.getConnection(protocol + dbName
     			        + ";create=true", props);
                 conn.setAutoCommit(false);
-    			Statement s = conn.createStatement();
+           		Statement s = conn.createStatement();
                 statements.add(s);
                 s.execute(createTableStatement);
                 conn.commit();
-    		} catch (SQLException e) {
-    			e.printStackTrace();
-    		}finally {
+    		}catch (Exception e){
+    			System.out.println(e);
+    		}
+        finally {
                 // release all open resources to avoid unnecessary memory usage
-
-
                 // Statements and PreparedStatements
                 int i = 0;
                 while (!statements.isEmpty()) {
@@ -270,4 +334,5 @@ public class Database {
                 }
             }
     }
+    
 }

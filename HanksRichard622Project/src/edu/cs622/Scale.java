@@ -1,6 +1,7 @@
 package edu.cs622;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,6 +111,12 @@ public abstract class Scale {
 	public abstract String getScaleDegreeName(int scaleDegree);
 	public abstract int getScaleDegreePitch(String name);
 	public abstract int getRoot();
+	
+	public static List<String> notesInChromaticScale(){
+		List<String> notesInChromaticScale = new ArrayList<>(Arrays.asList("C", "C#", "D", "Eb",
+				"E", "F", "F#", "G", "Ab", "A", "Bb", "B"));
+		return notesInChromaticScale;
+	}
 	
 	/**
 	 * Method called to instantiate the static mapping of pitch numbers  to their corresponding pitch names

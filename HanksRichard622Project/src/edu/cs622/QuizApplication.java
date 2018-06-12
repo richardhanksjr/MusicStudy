@@ -4,8 +4,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -28,13 +38,38 @@ public class QuizApplication extends Application{
 	static String username;
 	private static User user;
 	Text questionText = new Text();
+	private int sceneWidth = 500;
+	private int sceneHeight = 500;
+//	private GridPane grid = new GridPane();
+//	ExecutorService ex = Executors.newCachedThreadPool();
+	ExecutorService ex = Executors.newSingleThreadExecutor();
+	Future<String> timerFuture;
+	Text timerText = new Text();
+	Timer timer = new Timer();
+	ScheduledExecutorService checkTimer;
+	ScheduledFuture<?> checkTimerThread; 
+	/**
+	 * Method for checking if the timer is finished and, if so, initializing the "shutdown" sequence
+	 * @return 
+	 */
+	private void checkForTimerShutdown(){
+		System.out.println("Checking for shutdown");
+		if(timerFuture.isDone()){
+			System.out.println("timer done");
+			// This is the thread that calls this method (checkForTimerShutdown).  If the timerFuture thread is done, need to kill this as well.
+			checkTimerThread.cancel(true);
+			Platform.runLater(() -> 
+				displayScores()
+			);
+		}
+	}
+	
 	@Override
 	 public void start(Stage mainStage){
 		stage = mainStage;
 		mainStage.setTitle("MusicTrivia");
 		Scene userNameScene = getLoginScene();
 		stage.setScene(userNameScene);
-
 		stage.show();
 	} 
 	
@@ -43,13 +78,19 @@ public class QuizApplication extends Application{
 		launch(args);
 	}
 	
+	
 	private Scene getLoginScene(){
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		Scene userNameScene = new Scene(grid, 400, 275);
+//		// test split pane
+		SplitPane clockTimer = new SplitPane();
+		clockTimer.setPrefSize(50, 50);
+		clockTimer.getItems().add(0, timerText);
+		grid.add(clockTimer, 3, 0);
+		Scene userNameScene = new Scene(grid, sceneWidth, sceneHeight);
 		Text scenetitle = new Text("Welcome!");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		Label userNameLabel = new Label("Enter username to begin:");
@@ -70,8 +111,18 @@ public class QuizApplication extends Application{
 			@Override
 			public void handle(ActionEvent e){
 				try {
-					QuizApplication.user = new User(userNameText.getText());
+					QuizApplication.user = new UserDatabase(userNameText.getText());
+					// Start the countdown timer
+					timerFuture = ex.submit(new CountdownTimer(10, timerText));
 					setGameScene();
+					// Start thread to check if the timer is done
+					checkTimer = Executors.newSingleThreadScheduledExecutor();
+					checkTimerThread = checkTimer.scheduleAtFixedRate(new Runnable(){
+						@Override
+						public void run(){
+							checkForTimerShutdown();
+						}
+					}, 0, 500, TimeUnit.MILLISECONDS);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -92,7 +143,11 @@ public class QuizApplication extends Application{
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		Scene gameScene = new Scene(grid, 400, 275);
+		SplitPane clockTimer = new SplitPane();
+		clockTimer.setPrefSize(50, 50);
+		clockTimer.getItems().add(0, timerText);
+		grid.add(clockTimer, 2, 3);
+		Scene gameScene = new Scene(grid, sceneWidth, sceneHeight);
 		Text scenetitle = new Text("Let's play, " + user.getUserName() + "!");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		question = (AbstractQuestion) Quiz.getQuestion();
@@ -123,6 +178,7 @@ public class QuizApplication extends Application{
 		}
 		grid.add(hbBtn, 2, 4);
 		stage.setScene(gameScene);
+//		timer.schedule(checkForTimerShutdown(), 500);
 		correctQuesBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
@@ -141,7 +197,6 @@ public class QuizApplication extends Application{
 				try {
 					setAnswerScene(false);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -153,7 +208,6 @@ public class QuizApplication extends Application{
 				try {
 					setAnswerScene(false);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -165,7 +219,6 @@ public class QuizApplication extends Application{
 				try {
 					setAnswerScene(false);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -180,7 +233,11 @@ public class QuizApplication extends Application{
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		Scene answerScene = new Scene(grid, 400, 275);
+		SplitPane clockTimer = new SplitPane();
+		clockTimer.setPrefSize(50, 50);
+		clockTimer.getItems().add(0, timerText);
+		grid.add(clockTimer, 3, 0);
+		Scene answerScene = new Scene(grid, sceneWidth, sceneHeight);
 		Text correctAnswerTitle;
 		// If the user selected the correct answer:
 		if(correctAnswer){
@@ -202,6 +259,7 @@ public class QuizApplication extends Application{
 		hbBtn.getChildren().add(nextQuestionButton);
 		hbBtn.getChildren().add(quitButton);
 		grid.add(hbBtn, 2, 4);
+//		checkForTimerShutdown();
 		// Set action to get next question
 		nextQuestionButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
@@ -227,31 +285,39 @@ public class QuizApplication extends Application{
 	 * When the user selects to "quit" the program, display an exit screen with their updated scores
 	 */
 	private void displayScores(){
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
-		Scene exitScene = new Scene(grid, 400, 275);
-		// Create a variable to store the scores and then append to the screen
-		StringBuilder scoresString = new StringBuilder();
-		Map<String, Integer> userScores = user.getScores();
-		userScores.entrySet().stream().forEach((elem) -> scoresString.append(elem.getKey() + ": " + elem.getValue() + "\n"));
-		Text scoresText = new Text(scoresString.toString());
-		grid.add(scoresText, 2,0);
-		Button quitButton = new Button("Exit");
-		HBox hbBtn = new HBox(10);
-		hbBtn.setAlignment(Pos.BASELINE_CENTER);
-		hbBtn.getChildren().add(quitButton);
-		grid.add(hbBtn, 2, 4);
-		stage.setScene(exitScene);
-		// Set action to quit the program
-		quitButton.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent e){
-				System.exit(0);
-			}
-		});
+		System.out.println("displayScores");
+		try{
+			GridPane grid = new GridPane();
+			grid.setAlignment(Pos.CENTER);
+			grid.setHgap(10);
+			grid.setVgap(10);
+			grid.setPadding(new Insets(25, 25, 25, 25));
+			Scene exitScene = new Scene(grid, sceneWidth, sceneHeight);
+			// Create a variable to store the scores and then append to the screen
+			StringBuilder scoresString = new StringBuilder();
+			Map<String, Integer> userScores = user.getScores();
+			userScores.entrySet().stream().forEach((elem) -> scoresString.append(elem.getKey() + ": " + elem.getValue() + "\n"));
+			Text scoresText = new Text(scoresString.toString());
+			grid.add(scoresText, 2,0);
+			Button quitButton = new Button("Exit");
+			HBox hbBtn = new HBox(10);
+			hbBtn.setAlignment(Pos.BASELINE_CENTER);
+			hbBtn.getChildren().add(quitButton);
+			grid.add(hbBtn, 2, 4);
+			stage.setScene(exitScene);
+			// Set action to quit the program
+			quitButton.setOnAction(new EventHandler<ActionEvent>(){
+				@Override
+				public void handle(ActionEvent e){
+					System.exit(0);
+				}
+			});
+
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		System.out.println("Bottom of displayScores");
+
 	}
 				
 }

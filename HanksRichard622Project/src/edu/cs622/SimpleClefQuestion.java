@@ -1,6 +1,7 @@
 package edu.cs622;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -59,7 +60,7 @@ public class SimpleClefQuestion<E extends Clef> extends AbstractQuestion{
 			index = rand.nextInt(keys.size());
 			randomAnswer = clef.getNoteStaffMap().get(keys.get(index));
 			// If the randomAnswer and the actual answer are the same, try again
-			while(randomAnswer.equals(this.answer)){
+			while(randomAnswer.equals(this.answer) || Arrays.asList(answers).contains(randomAnswer)){
 				index = rand.nextInt(keys.size());
 				randomAnswer = clef.getNoteStaffMap().get(keys.get(index));
 			}

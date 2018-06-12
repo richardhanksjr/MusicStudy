@@ -1,6 +1,7 @@
 package edu.cs622;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -72,7 +73,7 @@ public class SimpleIntervalDownGeneric<E extends Scale> extends AbstractScalarIn
 		for(int i = 0; i < numAnswers; i++){
 			index = rand.nextInt(keys.size());
 			// If the random int is the answer, get another int until they are different
-			while(index == answerInt){
+			while(index == answerInt || Arrays.asList(answers).contains(index)){
 				index = rand.nextInt(keys.size());
 			}
 			answers[i] = pitchNameMapping.get(index);

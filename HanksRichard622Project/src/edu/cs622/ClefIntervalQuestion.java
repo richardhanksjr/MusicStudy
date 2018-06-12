@@ -1,5 +1,6 @@
 package edu.cs622;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -58,7 +59,7 @@ public class ClefIntervalQuestion<E extends Clef> extends AbstractQuestion {
 		for(int i = 0; i < tempArr.length; i++){
 			do{
 				randElem = Scale.getRandomIntervalKey();
-			}while(randElem.equals(this.answer));
+			}while(randElem.equals(this.answer) || Arrays.asList(tempArr).contains(randElem));
 			tempArr[i] = randElem;
 		}
 		return tempArr;		

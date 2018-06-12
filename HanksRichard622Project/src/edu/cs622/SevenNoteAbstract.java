@@ -1,7 +1,11 @@
 package edu.cs622;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Class for abstracting the functionality common to all scales with 7 diatonic notes
@@ -13,6 +17,31 @@ public abstract class SevenNoteAbstract extends Scale {
 
 	protected abstract  Map<String, Integer> setModalDegreeNames();
 	protected abstract Map<Integer, String> setModalDegreeNumber();
+//	protected abstract String getModalDegreeNameByPitchNumber(int pitchNumber);
+	
+	public String getPitchIntByScalePosition(String positionName) {
+		// Map the scale position to the modal name
+		String modalName = null;
+		switch(positionName){
+		case "first": modalName = "tonic";
+		break;
+		case "second": modalName = "supertonic";
+		break;
+		case "third": modalName = "mediant";
+		break;
+		case "fourth": modalName = "subdominant";
+		break;
+		case "fifth": modalName = "dominant";
+		break;
+		case "sixth": modalName = "submediant";
+		break;
+		case "seventh": modalName = "leading tone";
+		break;
+		}
+		// Return the int at the modal name
+//		return Scale.getPitchNameMapping().get(this.setModalDegreeNames().get(modalName));
+		return modalName;
+	}
 
 
 	/**
@@ -88,6 +117,16 @@ public abstract class SevenNoteAbstract extends Scale {
 			this.pitchesByName.put(Scale.pitchNameMapping.get(pitchCorrectedByTonic), i);
 			
 		}
+	}
+	
+	/**
+	 * @return a random string that maps to a scale position in a seven note scale (ex. "third", "fourth")
+	 */
+	public static String getRandomScalePosition(){
+		List<String> scalePositions = new ArrayList<>(Arrays.asList("first", "second", "third", "fourth",
+				"fifth", "sixth", "seventh"));
+		Random rand = new Random();
+		return scalePositions.get(rand.nextInt(scalePositions.size()));
 	}
 
 }
