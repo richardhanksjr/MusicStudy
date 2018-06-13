@@ -75,6 +75,7 @@ public class Database {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.exit(1);
 		}
     	try {
 			this.createOrDropTable("drop table user_score");
@@ -112,6 +113,7 @@ public class Database {
                 conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
+    			System.exit(1);
     		}finally{
     			if(rs != null){
     				try {
@@ -119,6 +121,7 @@ public class Database {
 						rs = null;
 					} catch (SQLException e) {
 						e.printStackTrace();
+		    			System.exit(1);
 					}
     			}
     			if(conn != null){
@@ -127,6 +130,7 @@ public class Database {
 						conn = null;
 					} catch (SQLException e) {
 						e.printStackTrace();
+		    			System.exit(1);
 					}
     			}
     		}
@@ -159,6 +163,7 @@ public class Database {
     			System.out.println("User inserted successfully");
     		} catch (SQLException e) {
     			e.printStackTrace();
+    			System.exit(1);
     		}finally {
                 // release all open resources to avoid unnecessary memory usage
                 // Statements and PreparedStatements
@@ -207,6 +212,7 @@ public class Database {
     			conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
+    			System.exit(1);
     		}finally {
                 // release all open resources to avoid unnecessary memory usage
 
@@ -264,6 +270,7 @@ public class Database {
                 conn.commit();
     		} catch (SQLException e) {
     			e.printStackTrace();
+    			System.exit(1);
     		}finally{
     			int i = 0;
                 while (!statements.isEmpty()) {

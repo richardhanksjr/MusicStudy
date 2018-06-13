@@ -17,8 +17,10 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,8 +42,7 @@ public class QuizApplication extends Application{
 	Text questionText = new Text();
 	private int sceneWidth = 500;
 	private int sceneHeight = 500;
-//	private GridPane grid = new GridPane();
-//	ExecutorService ex = Executors.newCachedThreadPool();
+	// Creates an Executor that uses a single worker thread operating off an unbounded queue.
 	ExecutorService ex = Executors.newSingleThreadExecutor();
 	Future<String> timerFuture;
 	Text timerText = new Text();
@@ -50,14 +51,14 @@ public class QuizApplication extends Application{
 	ScheduledFuture<?> checkTimerThread; 
 	/**
 	 * Method for checking if the timer is finished and, if so, initializing the "shutdown" sequence
-	 * @return 
+	 *  
 	 */
 	private void checkForTimerShutdown(){
-		System.out.println("Checking for shutdown");
+		// Check if the timer/countdown thread is done running
 		if(timerFuture.isDone()){
-			System.out.println("timer done");
 			// This is the thread that calls this method (checkForTimerShutdown).  If the timerFuture thread is done, need to kill this as well.
 			checkTimerThread.cancel(true);
+			// Countdown thread/timer is done, use this command to call the final screen, which will display the user's scores.
 			Platform.runLater(() -> 
 				displayScores()
 			);
@@ -86,10 +87,10 @@ public class QuizApplication extends Application{
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 //		// test split pane
-		SplitPane clockTimer = new SplitPane();
-		clockTimer.setPrefSize(50, 50);
-		clockTimer.getItems().add(0, timerText);
-		grid.add(clockTimer, 3, 0);
+//		SplitPane clockTimer = new SplitPane();
+//		clockTimer.setPrefSize(50, 50);
+//		clockTimer.getItems().add(0, timerText);
+//		grid.add(clockTimer, 3, 0);
 		Scene userNameScene = new Scene(grid, sceneWidth, sceneHeight);
 		Text scenetitle = new Text("Welcome!");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -112,11 +113,12 @@ public class QuizApplication extends Application{
 			public void handle(ActionEvent e){
 				try {
 					QuizApplication.user = new UserDatabase(userNameText.getText());
-					// Start the countdown timer
+					// Start the countdown timer as a new thread
 					timerFuture = ex.submit(new CountdownTimer(10, timerText));
 					setGameScene();
-					// Start thread to check if the timer is done
+					// Start another new thread to check if the timer is done
 					checkTimer = Executors.newSingleThreadScheduledExecutor();
+					// Every 500 MS, check if the timer thread has completed.  checkForTimerShutdown will handle the logic if the timer has completed.
 					checkTimerThread = checkTimer.scheduleAtFixedRate(new Runnable(){
 						@Override
 						public void run(){
@@ -146,7 +148,7 @@ public class QuizApplication extends Application{
 		SplitPane clockTimer = new SplitPane();
 		clockTimer.setPrefSize(50, 50);
 		clockTimer.getItems().add(0, timerText);
-		grid.add(clockTimer, 2, 3);
+		grid.add(clockTimer, 2, 5);
 		Scene gameScene = new Scene(grid, sceneWidth, sceneHeight);
 		Text scenetitle = new Text("Let's play, " + user.getUserName() + "!");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -236,7 +238,7 @@ public class QuizApplication extends Application{
 		SplitPane clockTimer = new SplitPane();
 		clockTimer.setPrefSize(50, 50);
 		clockTimer.getItems().add(0, timerText);
-		grid.add(clockTimer, 3, 0);
+		grid.add(clockTimer, 2, 5);
 		Scene answerScene = new Scene(grid, sceneWidth, sceneHeight);
 		Text correctAnswerTitle;
 		// If the user selected the correct answer:
@@ -282,10 +284,10 @@ public class QuizApplication extends Application{
 	}
 	
 	/**
-	 * When the user selects to "quit" the program, display an exit screen with their updated scores
+	 * When the user selects to "quit" the program, display an exit screen with their updated scores.
+	 * This is also called when the timer/countdown thread completes.
 	 */
 	private void displayScores(){
-		System.out.println("displayScores");
 		try{
 			GridPane grid = new GridPane();
 			grid.setAlignment(Pos.CENTER);
@@ -316,8 +318,6 @@ public class QuizApplication extends Application{
 		}catch(Exception e){
 			System.out.println(e);
 		}
-		System.out.println("Bottom of displayScores");
-
 	}
 				
 }
