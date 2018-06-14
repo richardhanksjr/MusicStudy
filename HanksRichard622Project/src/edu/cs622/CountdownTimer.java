@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 public class CountdownTimer implements Callable<String>{
 	private int currentTimer;
 	Text timerText;
+	private Thread soundThread;
 	
 	/*
 	 * @param text The Text object that represent the "countdown clock" in the JavaFX GUI window.
@@ -25,10 +26,22 @@ public class CountdownTimer implements Callable<String>{
 		this.timerText = text;
 	}
 	
+	public void cancelSoundThread(){
+		// If the timer hasn't gotten below the threshold (e.g. 5 seconds), there will be no
+		// soundThread initialized.  Otherwise, interrupt the thread.
+		if(soundThread != null){
+			soundThread.interrupt();
+		}else{
+			// If the timer is greater than the threshold when this is called, set the timer
+			// to zero to bypass starting the sound thread.
+			currentTimer = 0;
+		}
+	}
+	
 	@Override
 	public String call() throws Exception{
 		CountdownSound sound;
-		Thread soundThread;
+//		Thread soundThread;
 		while(currentTimer > 0){
 			try{
 				// Only one thread should ever be executing this block, but using synchronized to explicitly enforce this.

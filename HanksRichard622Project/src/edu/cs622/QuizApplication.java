@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -17,10 +16,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -47,8 +44,11 @@ public class QuizApplication extends Application{
 	Future<String> timerFuture;
 	Text timerText = new Text();
 	Timer timer = new Timer();
+	private CountdownTimer timerCountdown;
 	ScheduledExecutorService checkTimer;
 	ScheduledFuture<?> checkTimerThread; 
+	private int numberCorrectThisSession = 0;
+	private int numberIncorrectThisSession = 0;
 	/**
 	 * Method for checking if the timer is finished and, if so, initializing the "shutdown" sequence
 	 *  
@@ -97,6 +97,11 @@ public class QuizApplication extends Application{
 		Label userNameLabel = new Label("Enter username to begin:");
 		grid.add(userNameLabel, 0, 1);
 		TextField userNameText = new TextField();
+//		Get the user's preference for countdown time, in minutes
+		Label countDownTimerLabel = new Label("How many minutes would you like to play?");
+		TextField countDownNumberInMinutes = new TextField();
+		grid.add(countDownNumberInMinutes, 1, 2);
+		grid.add(countDownTimerLabel, 0, 2);
 		grid.add(userNameText, 1, 1);
 		grid.add(scenetitle, 0,0,1, 1);
 		// Submit button
@@ -113,8 +118,21 @@ public class QuizApplication extends Application{
 			public void handle(ActionEvent e){
 				try {
 					QuizApplication.user = new UserDatabase(userNameText.getText());
+					// Get the countdown amount and ensure that it is a positive number, else use a default value of 5 minutes
+					int defaultMinutes = 5;
+					int countdownIntMinutes = defaultMinutes;
+					try{
+						countdownIntMinutes = Integer.parseInt(countDownNumberInMinutes.getText());
+						if(countdownIntMinutes < 1){
+							countdownIntMinutes = defaultMinutes;
+						}
+					}catch(NumberFormatException fe){
+						
+					}
+					int timerInSeconds = countdownIntMinutes * 60;
 					// Start the countdown timer as a new thread
-					timerFuture = ex.submit(new CountdownTimer(10, timerText));
+					timerCountdown = new CountdownTimer(timerInSeconds, timerText);
+					timerFuture = ex.submit(timerCountdown);
 					setGameScene();
 					// Start another new thread to check if the timer is done
 					checkTimer = Executors.newSingleThreadScheduledExecutor();
@@ -148,15 +166,26 @@ public class QuizApplication extends Application{
 		SplitPane clockTimer = new SplitPane();
 		clockTimer.setPrefSize(50, 50);
 		clockTimer.getItems().add(0, timerText);
-		grid.add(clockTimer, 2, 5);
+		grid.add(clockTimer, 2, 6);
 		Scene gameScene = new Scene(grid, sceneWidth, sceneHeight);
-		Text scenetitle = new Text("Let's play, " + user.getUserName() + "!");
-		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+//		Text scenetitle = new Text("Let's play, " + user.getUserName() + "!");
+//		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		question = (AbstractQuestion) Quiz.getQuestion();
-		grid.add(scenetitle, 2,0);
+//		grid.add(scenetitle, 2,2);
+		// The text for the correct and incorrect answers
+//		Text numberCorrectText = new Text(Integer.toString(numberCorrectThisSession));
+		Label numCorrectLabel = new Label("Number correct this session: " + numberCorrectThisSession);
+		Label numIncorrectLabel = new Label("Number incorrect this session: " + numberIncorrectThisSession);
+		Label percentThisSession = new Label("Your percetange correct this session: " + getPercentageThisSession());
+		numCorrectLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		numIncorrectLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		percentThisSession.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		grid.add(numCorrectLabel, 2, 0);
+		grid.add(numIncorrectLabel, 2, 1);
+		grid.add(percentThisSession, 2, 2);
 		Text questionText = new Text(question.getQuestion());
 		questionText.wrappingWidthProperty().bind(gameScene.widthProperty().subtract(30));
-		grid.add(questionText, 2, 2);
+		grid.add(questionText, 2, 4);
 		// Get the list of incorrect options
 		String[] incorrectAnswers = ((AbstractQuestion) question).getIncorrectAnswerOptions();
 		Button correctQuesBtn = new Button(question.getAnswer());
@@ -178,13 +207,14 @@ public class QuizApplication extends Application{
 			hbBtn.getChildren().add(button);
 
 		}
-		grid.add(hbBtn, 2, 4);
+		grid.add(hbBtn, 2, 5);
 		stage.setScene(gameScene);
 //		timer.schedule(checkForTimerShutdown(), 500);
 		correctQuesBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent e){
 				try {
+					numberCorrectThisSession++;
 					setAnswerScene(true);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -197,6 +227,7 @@ public class QuizApplication extends Application{
 			@Override
 			public void handle(ActionEvent e){
 				try {
+					numberIncorrectThisSession++;
 					setAnswerScene(false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -208,6 +239,7 @@ public class QuizApplication extends Application{
 			@Override
 			public void handle(ActionEvent e){
 				try {
+					numberIncorrectThisSession++;
 					setAnswerScene(false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -219,6 +251,7 @@ public class QuizApplication extends Application{
 			@Override
 			public void handle(ActionEvent e){
 				try {
+					numberIncorrectThisSession++;
 					setAnswerScene(false);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -228,6 +261,21 @@ public class QuizApplication extends Application{
 		});
 	}
 	
+	/**
+	 * 
+	 * @return The percentage correct this session as a String, to be used as a text label on the GUI window
+	 */
+	private String getPercentageThisSession() {
+		int totalNumQuestions = numberCorrectThisSession + numberIncorrectThisSession;
+		// to avoid problems with division by zero
+		if(totalNumQuestions < 1){
+			return "0%";
+		}else{
+			int percent = (int)((numberCorrectThisSession * 100) / totalNumQuestions);
+			return String.format("%d%%", percent);
+		}
+	}
+
 	// Called when an answer is selected.  Displays feedback to the user on their answer.  Gives option to quit or select next question.
 	private void setAnswerScene(boolean correctAnswer) throws Exception{
 		GridPane grid = new GridPane();
@@ -289,18 +337,38 @@ public class QuizApplication extends Application{
 	 */
 	private void displayScores(){
 		try{
+			// Kill any open threads
+			checkTimerThread.cancel(true);
+			try{
+				timerCountdown.cancelSoundThread();
+
+			}catch(Exception e){
+				System.out.println("problem with closing sound thread");
+				System.out.println(e);
+			}
+			timerFuture.cancel(true);
+//			System.out.println(timerFuture.isCancelled());
 			GridPane grid = new GridPane();
 			grid.setAlignment(Pos.CENTER);
 			grid.setHgap(10);
 			grid.setVgap(10);
 			grid.setPadding(new Insets(25, 25, 25, 25));
-			Scene exitScene = new Scene(grid, sceneWidth, sceneHeight);
+			Scene exitScene = new Scene(grid, sceneWidth+100, sceneHeight);
+			Label numCorrectLabel = new Label("Number correct this session: " + numberCorrectThisSession);
+			Label numIncorrectLabel = new Label("Number incorrect this session: " + numberIncorrectThisSession);
+			Label percentThisSession = new Label("Your percetange correct this session: " + getPercentageThisSession());
+			numCorrectLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+			numIncorrectLabel.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+			percentThisSession.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+			grid.add(numCorrectLabel, 2, 0);
+			grid.add(numIncorrectLabel, 2, 1);
+			grid.add(percentThisSession, 2, 2);
 			// Create a variable to store the scores and then append to the screen
-			StringBuilder scoresString = new StringBuilder();
+			StringBuilder scoresString = new StringBuilder("Total Scores for Each Category All Time:\n______________________________________________\n\n");
 			Map<String, Integer> userScores = user.getScores();
 			userScores.entrySet().stream().forEach((elem) -> scoresString.append(elem.getKey() + ": " + elem.getValue() + "\n"));
 			Text scoresText = new Text(scoresString.toString());
-			grid.add(scoresText, 2,0);
+			grid.add(scoresText, 2,3);
 			Button quitButton = new Button("Exit");
 			HBox hbBtn = new HBox(10);
 			hbBtn.setAlignment(Pos.BASELINE_CENTER);
